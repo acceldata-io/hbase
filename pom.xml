@@ -39,7 +39,7 @@
   <groupId>org.apache.hbase</groupId>
   <artifactId>hbase</artifactId>
   <packaging>pom</packaging>
-  <version>2.4.11.3.2.2.0-2</version>
+  <version>2.4.11.3.2.2.0-SNAPSHOT</version>
   <name>Apache HBase</name>
   <description>
     Apache HBase is the Hadoop database. Use it when you need
@@ -59,6 +59,19 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
+
+<distributionManagement>
+    <repository>
+      <id>nexus-releases</id>
+      <name>Releases</name>
+     <url>https://repo1.acceldata.dev/repository/odp-release/</url>
+   </repository>
+   <snapshotRepository>
+     <id>nexus-snapshots</id>
+     <name>Snapshot</name>
+     <url>https://repo1.acceldata.dev/repository/odp-snapshot/</url>
+   </snapshotRepository>
+ </distributionManagement>
 
   <modules>
     <module>hbase-build-configuration</module>
@@ -1447,7 +1460,7 @@
     <java.min.version>${compileSource}</java.min.version>
     <!-- Dependencies -->
     <hadoop-two.version>2.10.0</hadoop-two.version>
-    <hadoop-three.version>3.2.3.3.2.2.0-2</hadoop-three.version>
+    <hadoop-three.version>3.2.3.3.2.2.0-SNAPSHOT</hadoop-three.version>
     <!-- These must be defined here for downstream build tools that don't look at profiles.
          They ought to match the values found in our default hadoop profile, which is
          currently "hadoop-2.0". See HBASE-15925 for more info. -->
@@ -1494,7 +1507,7 @@
     <protobuf.plugin.version>0.6.1</protobuf.plugin.version>
     <thrift.path>thrift</thrift.path>
     <thrift.version>0.14.1</thrift.version>
-    <zookeeper.version>3.5.10.3.2.2.0-2</zookeeper.version>
+    <zookeeper.version>3.5.10.3.2.2.0-SNAPSHOT</zookeeper.version>
     <jline.version>2.11</jline.version>
     <slf4j.version>1.7.33</slf4j.version>
     <clover.version>4.0.3</clover.version>
@@ -2387,7 +2400,7 @@
         <!-- TODO: replicate logic for windows support -->
         <argLine>--add-opens=java.base/jdk.internal.ref=ALL-UNNAMED ${hbase-surefire.argLine}</argLine>
         <!-- We need a minimum HDFS version of 3.2.0 for HADOOP-12760 -->
-        <hadoop-three.version>3.2.3.3.2.2.0-2</hadoop-three.version>
+        <hadoop-three.version>3.2.3.3.2.2.0-SNAPSHOT</hadoop-three.version>
         <!--
           Value to use for surefire when running jdk11.
           TODO: replicate logic for windows
@@ -4600,14 +4613,4 @@
 
     </plugins>
   </reporting>
-  <distributionManagement>
-    <site>
-      <id>hbase.apache.org</id>
-      <name>HBase Website at hbase.apache.org</name>
-      <!-- On why this is the tmp dir and not hbase.apache.org, see
-        https://issues.apache.org/jira/browse/HBASE-7593?focusedCommentId=13555866&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-13555866
-       -->
-      <url>file:///tmp</url>
-    </site>
-  </distributionManagement>
 </project>
