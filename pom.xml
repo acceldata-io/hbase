@@ -2661,7 +2661,7 @@
         <assembly.file>src/main/assembly/hadoop-two-compat.xml</assembly.file>
         <!--This property is for hadoops netty. HBase netty
              comes in via hbase-thirdparty hbase-shaded-netty-->
-        <netty.hadoop.version>3.6.2.Final</netty.hadoop.version>
+        <netty.hadoop.version>4.1.94.Final</netty.hadoop.version>
       </properties>
       <dependencyManagement>
         <dependencies>
