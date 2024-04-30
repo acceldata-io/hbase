@@ -60,6 +60,19 @@
     </license>
   </licenses>
 
+  <distributionManagement>
+  <repository>
+    <id>nexus-releases</id>
+    <name>Releases</name>
+    <url>https://repo1.acceldata.dev/repository/odp-release/</url>
+  </repository>
+  <snapshotRepository>
+    <id>nexus-snapshots</id>
+    <name>Snapshot</name>
+    <url>https://repo1.acceldata.dev/repository/odp-snapshot/</url>
+  </snapshotRepository>
+</distributionManagement>
+
   <modules>
     <module>hbase-build-configuration</module>
     <module>hbase-replication</module>
@@ -4635,14 +4648,4 @@
 
     </plugins>
   </reporting>
-  <distributionManagement>
-    <site>
-      <id>hbase.apache.org</id>
-      <name>HBase Website at hbase.apache.org</name>
-      <!-- On why this is the tmp dir and not hbase.apache.org, see
-        https://issues.apache.org/jira/browse/HBASE-7593?focusedCommentId=13555866&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-13555866
-       -->
-      <url>file:///tmp</url>
-    </site>
-  </distributionManagement>
 </project>
