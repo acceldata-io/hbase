@@ -538,15 +538,15 @@
     <tar.name>${project.build.finalName}.tar.gz</tar.name>
     <maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm</maven.build.timestamp.format>
     <buildDate>${maven.build.timestamp}</buildDate>
-    <compileSource>1.8</compileSource>
-    <releaseTarget>8</releaseTarget>
+    <compileSource>11</compileSource>
+    <releaseTarget>11</releaseTarget>
     <!-- Build dependencies -->
     <!-- The $revision feature is introduced in 3.5.0 -->
     <maven.min.version>3.5.0</maven.min.version>
     <java.min.version>${compileSource}</java.min.version>
     <!-- Dependencies -->
     <hadoop-two.version>2.10.2</hadoop-two.version>
-    <hadoop-three.version>3.2.4</hadoop-three.version>
+    <hadoop-three.version>3.3.6</hadoop-three.version>
     <!-- These must be defined here for downstream build tools that don't look at profiles.
          They ought to match the values found in our default hadoop profile, which is
          currently "hadoop-2.0". See HBASE-15925 for more info. -->
