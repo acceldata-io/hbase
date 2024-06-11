@@ -93,7 +93,19 @@
     <module>hbase-asyncfs</module>
     <module>hbase-logging</module>
   </modules>
-  <scm>
+   <repository>
+        <id>acceldata repo</id>
+        <name>acceldata repo</name>
+        <url>https://repo1.acceldata.dev/repository/odp-central/</url>
+        <releases>
+            <enabled>true</enabled>
+        </releases>
+        <snapshots>
+            <enabled>true</enabled>
+        </snapshots>
+    </repository>  
+
+<scm>
     <connection>scm:git:git://gitbox.apache.org/repos/asf/hbase.git</connection>
     <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/hbase.git</developerConnection>
     <url>https://gitbox.apache.org/repos/asf?p=hbase.git</url>
@@ -4601,6 +4613,16 @@
     </plugins>
   </reporting>
   <distributionManagement>
+        <repository>
+            <id>nexus-releases</id>
+            <name>Releases</name>
+            <url>https://repo1.acceldata.dev/repository/odp-release/</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>Snapshot</name>
+            <url>https://repo1.acceldata.dev/repository/odp-snapshot/</url>
+        </snapshotRepository>
     <site>
       <id>hbase.apache.org</id>
       <name>HBase Website at hbase.apache.org</name>
