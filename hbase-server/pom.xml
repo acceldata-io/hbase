@@ -697,12 +697,24 @@
         <dependency>
           <groupId>org.apache.hadoop</groupId>
           <artifactId>hadoop-hdfs</artifactId>
+          <exclusions>
+            <exclusion>
+              <groupId>io.netty</groupId>
+              <artifactId>netty</artifactId>
+            </exclusion>
+          </exclusions>
         </dependency>
         <dependency>
           <groupId>org.apache.hadoop</groupId>
           <artifactId>hadoop-hdfs</artifactId>
           <type>test-jar</type>
           <scope>test</scope>
+          <exclusions>
+            <exclusion>
+              <groupId>io.netty</groupId>
+              <artifactId>netty</artifactId>
+            </exclusion>
+          </exclusions>
         </dependency>
         <dependency>
           <groupId>org.apache.hadoop</groupId>
@@ -721,9 +733,8 @@
         </dependency>
         <!-- Hadoop needs Netty 3.x at test scope for the minicluster -->
         <dependency>
-          <groupId>io.netty</groupId>
-          <artifactId>netty</artifactId>
-          <version>${netty.hadoop.version}</version>
+          <groupId>org.apache.hadoop</groupId>
+          <artifactId>hadoop-minikdc</artifactId>
           <scope>test</scope>
         </dependency>
         <dependency>
