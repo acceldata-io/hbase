@@ -554,7 +554,6 @@ public abstract class TestReplicationSourceManager {
     }
   }
 
-
   @Test
   public void testDisablePeerMetricsCleanup() throws Exception {
     final String peerId = "DummyPeer";
