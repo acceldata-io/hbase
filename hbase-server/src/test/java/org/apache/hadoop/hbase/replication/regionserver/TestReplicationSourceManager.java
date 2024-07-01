@@ -574,11 +574,9 @@ public abstract class TestReplicationSourceManager {
       assertEquals(1 + sizeOfSingleLogQueue, source.getSourceMetrics().getSizeOfLogQueue());
       assertEquals(source.getSourceMetrics().getSizeOfLogQueue() + globalLogQueueSizeInitial,
         globalSource.getSizeOfLogQueue());
-
       // Refreshing the peer should decrement the global and single source metrics
       manager.refreshSources(peerId);
       assertEquals(globalLogQueueSizeInitial, globalSource.getSizeOfLogQueue());
-
       source = manager.getSource(peerId);
       assertNotNull(source);
       assertEquals(sizeOfSingleLogQueue, source.getSourceMetrics().getSizeOfLogQueue());

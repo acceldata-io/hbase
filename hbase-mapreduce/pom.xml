@@ -304,7 +304,7 @@
         <dependency>
           <groupId>io.netty</groupId>
           <artifactId>netty</artifactId>
-          <version>${netty.hadoop.version}</version>
+          <version>${netty3.version}</version>
           <scope>test</scope>
         </dependency>
         <dependency>
@@ -319,10 +319,22 @@
         <dependency>
           <groupId>org.apache.hadoop</groupId>
           <artifactId>hadoop-hdfs</artifactId>
+          <exclusions>
+            <exclusion>
+              <groupId>io.netty</groupId>
+              <artifactId>netty</artifactId>
+            </exclusion>
+          </exclusions>
         </dependency>
         <dependency>
           <groupId>org.apache.hadoop</groupId>
           <artifactId>hadoop-hdfs</artifactId>
+          <exclusions>
+            <exclusion>
+              <groupId>io.netty</groupId>
+              <artifactId>netty</artifactId>
+            </exclusion>
+          </exclusions>
           <type>test-jar</type>
           <scope>test</scope>
         </dependency>
