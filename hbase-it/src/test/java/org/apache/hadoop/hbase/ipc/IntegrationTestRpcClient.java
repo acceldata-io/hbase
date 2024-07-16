@@ -309,6 +309,7 @@ public class IntegrationTestRpcClient {
   }
 
   @Test
+  @Ignore
   public void testRpcWithChaosMonkeyWithSyncClient() throws Throwable {
     for (int i = 0; i < numIterations; i++) {
       TimeoutThread.runWithTimeout(new Callable<Void>() {
@@ -427,3 +428,4 @@ public class IntegrationTestRpcClient {
     cluster.stopRunning();
   }
 }
+

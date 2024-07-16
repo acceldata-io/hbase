@@ -32,6 +32,8 @@ import org.junit.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.security.Security;
+
 import org.apache.hbase.thirdparty.org.apache.commons.cli.CommandLine;
 
 /**
@@ -161,8 +163,15 @@ public abstract class IntegrationTestBase extends AbstractHBaseTool {
 
   @Before
   public void setUp() throws Exception {
-    setUpCluster();
-    setUpMonkey();
+    try {
+      setUpCluster();
+      setUpMonkey();
+    } catch (NoClassDefFoundError e) {
+      // Log the error or handle it gracefully
+      LOG.error("Bouncy Castle Provider not found. This may cause issues with cryptographic operations.");
+      // Optionally, re-throw the exception or fail the test
+      throw e;
+    }
   }
 
   @After

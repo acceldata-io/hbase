@@ -59,6 +59,8 @@ import org.junit.rules.TestName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.security.Security;
+
 import org.apache.hbase.thirdparty.com.google.common.base.Splitter;
 import org.apache.hbase.thirdparty.com.google.common.base.Strings;
 
@@ -76,6 +78,8 @@ public class IntegrationTestImportTsv extends Configured implements Tool {
   protected static final String simple_tsv = "row1\t1\tc1\tc2\n" + "row2\t1\tc1\tc2\n"
     + "row3\t1\tc1\tc2\n" + "row4\t1\tc1\tc2\n" + "row5\t1\tc1\tc2\n" + "row6\t1\tc1\tc2\n"
     + "row7\t1\tc1\tc2\n" + "row8\t1\tc1\tc2\n" + "row9\t1\tc1\tc2\n" + "row10\t1\tc1\tc2\n";
+
+
 
   @Rule
   public TestName name = new TestName();
@@ -115,15 +119,23 @@ public class IntegrationTestImportTsv extends Configured implements Tool {
 
   @BeforeClass
   public static void provisionCluster() throws Exception {
-    if (null == util) {
-      util = new IntegrationTestingUtility();
-    }
-    util.initializeCluster(1);
-    if (!util.isDistributedCluster()) {
-      // also need MR when running without a real cluster
-      util.startMiniMapReduceCluster();
+    try {
+      if (null == util) {
+        util = new IntegrationTestingUtility();
+      }
+      util.initializeCluster(1);
+      if (!util.isDistributedCluster()) {
+        // also need MR when running without a real cluster
+        util.startMiniMapReduceCluster();
+      }
+    } catch (NoClassDefFoundError e) {
+      // Log the error or handle it gracefully
+      LOG.error("Bouncy Castle Provider not found. This may cause issues with cryptographic operations.");
+      // Optionally, re-throw the exception or fail the test
+      throw e;
     }
   }
+
 
   @AfterClass
   public static void releaseCluster() throws Exception {

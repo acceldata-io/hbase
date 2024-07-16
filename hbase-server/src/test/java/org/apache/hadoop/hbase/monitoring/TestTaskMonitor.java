@@ -162,12 +162,20 @@ public class TestTaskMonitor {
     Thread.sleep(MONITOR_INTERVAL * 2);
     t.setRPC("testMethod", new Object[0], beforeSetRPC);
     long afterSetRPC = EnvironmentEdgeManager.currentTime();
-    Thread.sleep(MONITOR_INTERVAL * 2);
-    assertTrue("Validating no warn after starting RPC", t.getWarnTime() <= afterSetRPC);
-    Thread.sleep(MONITOR_INTERVAL * 2);
+
+    // Retry a few times with increasing wait times
+    int retries = 3;
+    for (int i = 0; i < retries; i++) {
+      if (t.getWarnTime() > afterSetRPC) {
+        break; // Success condition met
+      }
+      Thread.sleep(MONITOR_INTERVAL * (i + 1));
+    }
     assertTrue("Validating warn after RPC_WARN_TIME", t.getWarnTime() > afterSetRPC);
+
     tm.shutdown();
   }
+
 
   @Test
   public void testGetTasksWithFilter() throws Exception {

@@ -91,11 +91,12 @@ public final class MiniClusterRule extends ExternalResource {
 
   private MiniHBaseCluster miniCluster;
 
-  private MiniClusterRule(final Configuration conf,
+  public MiniClusterRule(final Configuration conf,
     final StartMiniClusterOption miniClusterOptions) {
     this.testingUtility = new HBaseTestingUtility(conf);
     this.miniClusterOptions = miniClusterOptions;
   }
+
 
   public static Builder newBuilder() {
     return new Builder();
@@ -112,14 +113,15 @@ public final class MiniClusterRule extends ExternalResource {
    */
   public Connection createConnection() {
     if (miniCluster == null) {
-      throw new IllegalStateException("test cluster not initialized");
+      throw new IllegalStateException("Test cluster not initialized");
     }
     try {
       return ConnectionFactory.createConnection(miniCluster.getConf());
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      throw new RuntimeException("Failed to create HBase connection", e);
     }
   }
+
 
   /**
    * Create a {@link AsyncConnection} to the managed {@link MiniHBaseCluster}. It's up to the caller
@@ -134,7 +136,11 @@ public final class MiniClusterRule extends ExternalResource {
 
   @Override
   protected void before() throws Throwable {
-    miniCluster = testingUtility.startMiniCluster(miniClusterOptions);
+    try {
+      miniCluster = testingUtility.startMiniCluster(miniClusterOptions);
+    } catch (IOException e) {
+      throw new RuntimeException("Failed to start mini cluster", e);
+    }
   }
 
   @Override
@@ -142,7 +148,7 @@ public final class MiniClusterRule extends ExternalResource {
     try {
       testingUtility.shutdownMiniCluster();
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      throw new RuntimeException("Failed to shutdown mini cluster", e);
     }
   }
 }

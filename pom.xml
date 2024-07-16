@@ -717,10 +717,10 @@
       Use -Dsurefire.Xmx=xxg to run tests with different JVM Xmx value.
       This value is managed separately for jdk11. See below.
     -->
-    <surefire.Xmx>2200m</surefire.Xmx>
+    <surefire.Xmx>10000m</surefire.Xmx>
     <surefire.Xms>1000m</surefire.Xms>
 
-    <surefire.cygwinXmx>2200m</surefire.cygwinXmx>
+    <surefire.cygwinXmx>10000m</surefire.cygwinXmx>
     <surefire.cygwinXms>1000m</surefire.cygwinXms>
     <!--Mark our test runs with '-Dhbase.build.id' so we can identify a surefire test as ours in a process listing
 
@@ -1564,6 +1564,21 @@
         <version>${netty4.version}</version>
         <type>pom</type>
         <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.bouncycastle</groupId>
+        <artifactId>bcprov-jdk18on</artifactId>
+        <version>1.78.1</version>
+      </dependency>
+      <dependency>
+        <groupId>org.bouncycastle</groupId>
+        <artifactId>bcmail-jdk18on</artifactId>
+        <version>1.78.1</version>
+      </dependency>
+      <dependency>
+        <groupId>org.bouncycastle</groupId>
+        <artifactId>bcpkix-jdk18on</artifactId>
+        <version>1.78.1</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -2943,7 +2958,7 @@
           Value to use for surefire when running jdk11.
           TODO: replicate logic for windows
         -->
-        <surefire.Xmx>2200m</surefire.Xmx>
+        <surefire.Xmx>10000m</surefire.Xmx>
         <!--
           com.sun.javadoc and com.sun.tools.doclets are both deprecated in java 11 and will
           fail the javadoc generating, so we need to use yetus 0.14.1 where it uses jdk.javadoc
@@ -3842,6 +3857,12 @@
             <artifactId>hadoop-hdfs-client</artifactId>
             <version>${hadoop-two.version}</version>
           </dependency>
+	<dependency>
+    	<groupId>org.bouncycastle</groupId>
+    	<artifactId>bcprov-jdk15on</artifactId>
+    	<version>1.70</version> 
+	<scope>compile</scope>
+	</dependency>
         </dependencies>
       </dependencyManagement>
     </profile>
@@ -4455,7 +4476,7 @@
             <artifactId>hadoop-hdfs-client</artifactId>
             <version>${hadoop-three.version}</version>
           </dependency>
-        </dependencies>
+	</dependencies>
       </dependencyManagement>
 
     </profile>
@@ -4799,7 +4820,7 @@
          or you can provide the license with -Dmaven.clover.licenseLocation=/path/to/license. Committers can find
          the license under https://svn.apache.org/repos/private/committers/donated-licenses/clover/
          The report will be generated under target/site/clover/index.html when you run
-         MAVEN_OPTS="-Xmx2048m" mvn clean package -Pclover site -->
+         MAVEN_OPTS="-Xmx10000m" mvn clean package -Pclover site -->
     <profile>
       <id>clover</id>
       <activation>

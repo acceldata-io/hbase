@@ -79,7 +79,7 @@ public class TestShellExecEndpointCoprocessor {
     consumer.accept(builder);
     final ShellExecResponse resp =
       admin.<ShellExecService.Stub, ShellExecResponse> coprocessorService(ShellExecService::newStub,
-        (stub, controller, callback) -> stub.shellExec(controller, builder.build(), callback))
+          (stub, controller, callback) -> stub.shellExec(controller, builder.build(), callback))
         .join();
     assertEquals(0, resp.getExitCode());
     assertEquals("hello world", resp.getStdout());

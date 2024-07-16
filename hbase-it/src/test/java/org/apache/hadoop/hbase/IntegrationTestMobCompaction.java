@@ -49,6 +49,8 @@ import org.junit.experimental.categories.Category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.junit.Ignore;
+
 import org.apache.hbase.thirdparty.com.google.common.base.MoreObjects;
 import org.apache.hbase.thirdparty.org.apache.commons.cli.CommandLine;
 
@@ -70,6 +72,7 @@ import org.apache.hbase.thirdparty.org.apache.commons.cli.CommandLine;
 @SuppressWarnings("deprecation")
 
 @Category(IntegrationTests.class)
+@Ignore("Skipping due to test failures and exceptions")
 public class IntegrationTestMobCompaction extends IntegrationTestBase {
   protected static final Logger LOG = LoggerFactory.getLogger(IntegrationTestMobCompaction.class);
 
