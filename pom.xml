@@ -57,6 +57,20 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
+
+  <distributionManagement>
+    <repository>
+      <id>nexus-releases</id>
+      <name>Releases</name>
+      <url>https://repo1.acceldata.dev/repository/odp-release/</url>
+    </repository>
+    <snapshotRepository>
+      <id>nexus-snapshots</id>
+      <name>Snapshot</name>
+      <url>https://repo1.acceldata.dev/repository/odp-snapshot/</url>
+    </snapshotRepository>
+  </distributionManagement>
+
   <developers>
     <developer>
       <id>acube123</id>
@@ -510,18 +524,7 @@
     <system>JIRA</system>
     <url>https://issues.apache.org/jira/browse/HBASE</url>
   </issueManagement>
-  <distributionManagement>
-    <repository>
-      <id>nexus-releases</id>
-      <name>Releases</name>
-     <url>https://repo1.acceldata.dev/repository/odp-release/</url>
-   </repository>
-   <snapshotRepository>
-     <id>nexus-snapshots</id>
-     <name>Snapshot</name>
-     <url>https://repo1.acceldata.dev/repository/odp-snapshot/</url>
-   </snapshotRepository>
- </distributionManagement>
+
  <repositories>
 	 <repository>
             <id>acceldata repo</id>
@@ -566,7 +569,7 @@
          They ought to match the values found in our default hadoop profile, which is
          currently "hadoop-2.0". See HBASE-15925 for more info. -->
     <hadoop.version>${hadoop-two.version}</hadoop.version>
-    <hadoop.guava.version>11.0.2</hadoop.guava.version>
+    <hadoop.guava.version>32.0-jre</hadoop.guava.version>
     <compat.module>hbase-hadoop2-compat</compat.module>
     <assembly.file>src/main/assembly/hadoop-two-compat.xml</assembly.file>
     <!--
@@ -595,6 +598,7 @@
     <commons-lang3.version>3.9</commons-lang3.version>
     <commons-math.version>3.6.1</commons-math.version>
     <commons-cli.version>1.5.0</commons-cli.version>
+    <snappy-java.version>1.1.10.4</snappy-java.version>
     <disruptor.version>3.4.4</disruptor.version>
     <httpclient.version>4.5.13</httpclient.version>
     <httpcore.version>4.4.13</httpcore.version>
@@ -1072,6 +1076,11 @@
         <scope>test</scope>
       </dependency>
       <dependency>
+        <groupId>org.xerial.snappy</groupId>
+        <artifactId>snappy-java</artifactId>
+        <version>${snappy-java.version}</version>
+      </dependency>
+      <dependency>
         <groupId>org.apache.hbase</groupId>
         <artifactId>hbase-compression-aircompressor</artifactId>
         <version>${project.version}</version>
@@ -1222,14 +1231,14 @@
         <artifactId>zookeeper</artifactId>
         <version>${zookeeper.version}</version>
         <exclusions>
-          <exclusion>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-core</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-          </exclusion>
+        <exclusion>
+          <groupId>ch.qos.logback</groupId>
+          <artifactId>logback-core</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>ch.qos.logback</groupId>
+          <artifactId>logback-classic</artifactId>
+        </exclusion>
         </exclusions>
       </dependency>
       <dependency>
@@ -1485,11 +1494,6 @@
         <groupId>org.tukaani</groupId>
         <artifactId>xz</artifactId>
         <version>${xz.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.xerial.snappy</groupId>
-        <artifactId>snappy-java</artifactId>
-        <version>${snappy.version}</version>
       </dependency>
       <dependency>
         <groupId>com.github.luben</groupId>
@@ -3242,9 +3246,7 @@
         <hadoop.version>${hadoop-two.version}</hadoop.version>
         <compat.module>hbase-hadoop2-compat</compat.module>
         <assembly.file>src/main/assembly/hadoop-two-compat.xml</assembly.file>
-        <!--This property is for hadoops netty. HBase netty
-             comes in via hbase-thirdparty hbase-shaded-netty-->
-        <netty.hadoop.version>3.10.6.Final</netty.hadoop.version>
+        <netty.hadoop.version>4.1.94.Final</netty.hadoop.version>
       </properties>
       <dependencyManagement>
         <dependencies>
@@ -3865,9 +3867,6 @@
         <!--Use this compat module for now. TODO: Make h3 one if we need one-->
         <compat.module>hbase-hadoop2-compat</compat.module>
         <assembly.file>src/main/assembly/hadoop-three-compat.xml</assembly.file>
-        <!--This property is for hadoops netty. HBase netty
-             comes in via hbase-thirdparty hbase-shaded-netty-->
-        <netty.hadoop.version>3.10.5.Final</netty.hadoop.version>
       </properties>
       <dependencyManagement>
         <dependencies>

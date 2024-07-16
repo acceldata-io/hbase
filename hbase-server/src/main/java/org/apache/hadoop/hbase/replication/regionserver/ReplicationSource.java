@@ -559,7 +559,14 @@ public class ReplicationSource implements ReplicationSourceInterface {
       // this means the server is shutting down or the source is terminated, just give up
       // initializing
       setSourceStartupStatus(false);
-      return;
+      if (Thread.currentThread().isInterrupted()) {
+        // If source is not running and thread is interrupted this means someone has tried to
+        // remove this peer.
+        return;
+      }
+
+      retryStartup.set(!this.abortOnError);
+      throw new IllegalStateException("Source should be active.");
     }
 
     sleepMultiplier = 1;
@@ -584,7 +591,13 @@ public class ReplicationSource implements ReplicationSourceInterface {
       // this means the server is shutting down or the source is terminated, just give up
       // initializing
       setSourceStartupStatus(false);
-      return;
+      if (Thread.currentThread().isInterrupted()) {
+        // If source is not running and thread is interrupted this means someone has tried to
+        // remove this peer.
+        return;
+      }
+      retryStartup.set(!this.abortOnError);
+      throw new IllegalStateException("Source should be active.");
     }
 
     LOG.info("{} queueId={} (queues={}) is replicating from cluster={} to cluster={}", logPeerId(),
