@@ -1495,7 +1495,7 @@
     <netty4.version>4.1.94.Final</netty4.version>
     <!-- end HBASE-15925 default hadoop compatibility values -->
     <audience-annotations.version>0.5.0</audience-annotations.version>
-    <avro.version>1.7.7</avro.version>
+    <avro.version>1.11.3</avro.version>
     <caffeine.version>2.8.1</caffeine.version>
     <commons-codec.version>1.13</commons-codec.version>
     <commons-io.version>2.11.0</commons-io.version>
@@ -1536,7 +1536,7 @@
     <slf4j.version>1.7.33</slf4j.version>
     <clover.version>4.0.3</clover.version>
     <jamon-runtime.version>2.4.1</jamon-runtime.version>
-    <jettison.version>1.3.8</jettison.version>
+    <jettison.version>1.5.4</jettison.version>
     <!--Make sure these joni/jcodings are compatible with the versions used by jruby-->
     <joni.version>2.1.31</joni.version>
     <jcodings.version>1.0.55</jcodings.version>
