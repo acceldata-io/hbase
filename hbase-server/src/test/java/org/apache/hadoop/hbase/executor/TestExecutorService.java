@@ -45,6 +45,7 @@ import org.apache.hadoop.hbase.executor.ExecutorService.ExecutorStatus;
 import org.apache.hadoop.hbase.testclassification.MiscTests;
 import org.apache.hadoop.hbase.testclassification.SmallTests;
 import org.junit.Assert;
+import static org.junit.Assert.fail;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -83,69 +84,80 @@ public class TestExecutorService {
     AtomicBoolean lock = new AtomicBoolean(true);
     AtomicInteger counter = new AtomicInteger(0);
 
-    // Submit maxThreads executors.
-    for (int i = 0; i < maxThreads; i++) {
-      executorService
-        .submit(new TestEventHandler(mockedServer, EventType.M_SERVER_SHUTDOWN, lock, counter));
+    try {
+      // Submit maxThreads executors.
+      for (int i = 0; i < maxThreads; i++) {
+        executorService.submit(new TestEventHandler(mockedServer, EventType.M_SERVER_SHUTDOWN, lock, counter));
+      }
+
+      // The TestEventHandler will increment counter when it starts.
+      int tries = 0;
+      while (counter.get() < maxThreads && tries < maxTries) {
+        LOG.info("Waiting for all event handlers to start...");
+        Thread.sleep(sleepInterval);
+        tries++;
+      }
+
+      // Assert that pool is at max threads.
+      assertEquals(maxThreads, counter.get());
+      assertEquals(maxThreads, pool.getPoolSize());
+
+      ExecutorStatus status = executor.getStatus();
+      assertTrue(status.queuedEvents.isEmpty());
+      assertEquals(5, status.running.size());
+      checkStatusDump(status);
+
+      // Now interrupt the running Executor
+      synchronized (lock) {
+        lock.set(false);
+        lock.notifyAll();
+      }
+
+      // Executor increments counter again on way out so.... test that happened.
+      while (counter.get() < (maxThreads * 2) && tries < maxTries) {
+        System.out.println("Waiting for all event handlers to finish...");
+        Thread.sleep(sleepInterval);
+        tries++;
+      }
+
+      assertEquals(maxThreads * 2, counter.get());
+      assertEquals(maxThreads, pool.getPoolSize());
+
+      // Add more than the number of threads items.
+      // Make sure we don't get RejectedExecutionException.
+      for (int i = 0; i < (2 * maxThreads); i++) {
+        executorService.submit(new TestEventHandler(mockedServer, EventType.M_SERVER_SHUTDOWN, lock, counter));
+      }
+      // Now interrupt the running Executor
+      synchronized (lock) {
+        lock.set(false);
+        lock.notifyAll();
+      }
+
+      // Make sure threads are still around even after their timetolive expires.
+      Thread.sleep(ExecutorConfig.KEEP_ALIVE_TIME_MILLIS_DEFAULT * 2);
+      assertEquals(maxThreads, pool.getPoolSize());
+
+    } catch (Exception e) {
+      // Handle any exceptions here, you can log them or take appropriate action
+      e.printStackTrace();
+      fail("Exception occurred during test execution: " + e.getMessage());
+    } finally {
+      executorService.shutdown();
     }
-
-    // The TestEventHandler will increment counter when it starts.
-    int tries = 0;
-    while (counter.get() < maxThreads && tries < maxTries) {
-      LOG.info("Waiting for all event handlers to start...");
-      Thread.sleep(sleepInterval);
-      tries++;
-    }
-
-    // Assert that pool is at max threads.
-    assertEquals(maxThreads, counter.get());
-    assertEquals(maxThreads, pool.getPoolSize());
-
-    ExecutorStatus status = executor.getStatus();
-    assertTrue(status.queuedEvents.isEmpty());
-    assertEquals(5, status.running.size());
-    checkStatusDump(status);
-
-    // Now interrupt the running Executor
-    synchronized (lock) {
-      lock.set(false);
-      lock.notifyAll();
-    }
-
-    // Executor increments counter again on way out so.... test that happened.
-    while (counter.get() < (maxThreads * 2) && tries < maxTries) {
-      System.out.println("Waiting for all event handlers to finish...");
-      Thread.sleep(sleepInterval);
-      tries++;
-    }
-
-    assertEquals(maxThreads * 2, counter.get());
-    assertEquals(maxThreads, pool.getPoolSize());
-
-    // Add more than the number of threads items.
-    // Make sure we don't get RejectedExecutionException.
-    for (int i = 0; i < (2 * maxThreads); i++) {
-      executorService
-        .submit(new TestEventHandler(mockedServer, EventType.M_SERVER_SHUTDOWN, lock, counter));
-    }
-    // Now interrupt the running Executor
-    synchronized (lock) {
-      lock.set(false);
-      lock.notifyAll();
-    }
-
-    // Make sure threads are still around even after their timetolive expires.
-    Thread.sleep(ExecutorConfig.KEEP_ALIVE_TIME_MILLIS_DEFAULT * 2);
-    assertEquals(maxThreads, pool.getPoolSize());
-
-    executorService.shutdown();
 
     assertEquals(0, executorService.getAllExecutorStatuses().size());
 
     // Test that submit doesn't throw NPEs
-    executorService
-      .submit(new TestEventHandler(mockedServer, EventType.M_SERVER_SHUTDOWN, lock, counter));
+    try {
+      executorService.submit(new TestEventHandler(mockedServer, EventType.M_SERVER_SHUTDOWN, lock, counter));
+    } catch (Exception e) {
+      // Handle any exceptions from this submit if needed
+      e.printStackTrace();
+      fail("Exception occurred during final submit test: " + e.getMessage());
+    }
   }
+
 
   private void checkStatusDump(ExecutorStatus status) throws IOException {
     StringWriter sw = new StringWriter();

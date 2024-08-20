@@ -143,7 +143,7 @@ public class TestConnectionImplementationCacheMasterState {
 
   // Spy the masterServiceState object using reflection
   private ConnectionImplementation.MasterServiceState
-    spyMasterServiceState(ConnectionImplementation conn) throws IllegalAccessException {
+  spyMasterServiceState(ConnectionImplementation conn) throws IllegalAccessException {
     ConnectionImplementation.MasterServiceState spiedMasterServiceState =
       Mockito.spy(conn.getMasterServiceState());
     FieldUtils.writeDeclaredField(conn, "masterServiceState", spiedMasterServiceState, true);

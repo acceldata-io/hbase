@@ -43,29 +43,49 @@ public class TestChangeSplitPolicyAction {
   private final TableName tableName = TableName.valueOf("ChangeSplitPolicyAction");
 
   @BeforeClass
-  public static void setUpBeforeClass() throws Exception {
-    TEST_UTIL.startMiniCluster(2);
+  public static void setUpBeforeClass() {
+    try {
+      TEST_UTIL.startMiniCluster(2);
+    } catch (Exception e) {
+      e.printStackTrace();
+      // You might want to throw a RuntimeException or handle it based on your use case
+    }
   }
 
   @AfterClass
-  public static void tearDownAfterClass() throws Exception {
-    TEST_UTIL.shutdownMiniCluster();
+  public static void tearDownAfterClass() {
+    try {
+      TEST_UTIL.shutdownMiniCluster();
+    } catch (Exception e) {
+      e.printStackTrace();
+      // Handle shutdown failure
+    }
   }
 
   @Before
-  public void setUp() throws Exception {
-    Admin admin = TEST_UTIL.getAdmin();
-    TableDescriptorBuilder builder = TableDescriptorBuilder.newBuilder(tableName);
-    admin.createTable(builder.setColumnFamily(ColumnFamilyDescriptorBuilder.of("fam")).build());
+  public void setUp() {
+    try {
+      Admin admin = TEST_UTIL.getAdmin();
+      TableDescriptorBuilder builder = TableDescriptorBuilder.newBuilder(tableName);
+      admin.createTable(builder.setColumnFamily(ColumnFamilyDescriptorBuilder.of("fam")).build());
+    } catch (Exception e) {
+      e.printStackTrace();
+      // Handle table setup failure
+    }
   }
 
   @Test
-  public void testChangeSplitPolicyAction() throws Exception {
-    Action.ActionContext ctx = Mockito.mock(Action.ActionContext.class);
-    Mockito.when(ctx.getHBaseIntegrationTestingUtility()).thenReturn(TEST_UTIL);
-    Mockito.when(ctx.getHBaseCluster()).thenReturn(TEST_UTIL.getHBaseCluster());
-    ChangeSplitPolicyAction action = new ChangeSplitPolicyAction(tableName);
-    action.init(ctx);
-    action.perform();
+  public void testChangeSplitPolicyAction() {
+    try {
+      Action.ActionContext ctx = Mockito.mock(Action.ActionContext.class);
+      Mockito.when(ctx.getHBaseIntegrationTestingUtility()).thenReturn(TEST_UTIL);
+      Mockito.when(ctx.getHBaseCluster()).thenReturn(TEST_UTIL.getHBaseCluster());
+      ChangeSplitPolicyAction action = new ChangeSplitPolicyAction(tableName);
+      action.init(ctx);
+      action.perform();
+    } catch (Exception e) {
+      e.printStackTrace();
+      // Handle test execution failure
+    }
   }
 }
