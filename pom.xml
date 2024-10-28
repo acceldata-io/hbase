@@ -73,8 +73,8 @@
    </snapshotRepository>
  </distributionManagement>
 
-<repositories>
-<repository>
+  <repositories>
+    <repository>
             <id>acceldata repo</id>
             <name>acceldata repo</name>
             <url>https://repo1.acceldata.dev/repository/odp-central/</url>
@@ -84,7 +84,7 @@
       <snapshots>
         <enabled>true</enabled>
       </snapshots>
-        </repository>
+    </repository>
  </repositories>
   <modules>
     <module>hbase-build-configuration</module>
