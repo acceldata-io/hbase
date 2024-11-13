@@ -1544,7 +1544,7 @@
     <bouncycastle.version>1.60</bouncycastle.version>
     <kerby.version>1.0.1</kerby.version>
     <commons-crypto.version>1.0.0</commons-crypto.version>
-    <curator.version>4.2.0</curator.version>
+    <curator.version>5.2.0</curator.version>
     <!-- Plugin Dependencies -->
     <asciidoctor.plugin.version>2.1.0</asciidoctor.plugin.version>
     <asciidoctorj.pdf.version>1.5.3</asciidoctorj.pdf.version>
