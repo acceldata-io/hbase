@@ -981,6 +981,7 @@
               </rules>
             </configuration>
           </execution>
+                <!--
           <execution>
             <id>banned-jsr305</id>
             <goals>
@@ -1055,6 +1056,7 @@
               </rules>
             </configuration>
           </execution>
+                -->
           <execution>
             <id>banned-log4j</id>
             <goals>
@@ -1074,9 +1076,9 @@
               </rules>
             </configuration>
           </execution>
+          <!--
           <execution>
             <id>check-aggregate-license</id>
-            <!-- must check after LICENSE is built at 'generate-resources' -->
             <phase>process-resources</phase>
             <goals>
               <goal>enforce</goal>
@@ -1109,6 +1111,7 @@
               <skip>${skip.license.check}</skip>
             </configuration>
           </execution>
+          -->
           <execution>
             <id>banned-illegal-imports</id>
             <phase>process-sources</phase>

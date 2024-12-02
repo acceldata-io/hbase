@@ -207,25 +207,49 @@ public final class BlockIOUtils {
    */
   public static boolean preadWithExtra(ByteBuff buff, FSDataInputStream dis, long position,
       int necessaryLen, int extraLen) throws IOException {
-    int remain = necessaryLen + extraLen;
-    byte[] buf = new byte[remain];
-    int bytesRead = 0;
+    try {
+      return preadWithoutHeapBuffer(buff, dis, position, necessaryLen, extraLen);
+    } catch (UnsupportedOperationException e) {
+      int remain = necessaryLen + extraLen;
+      byte[] buf = new byte[remain];
+      int bytesRead = 0;
+      while (bytesRead < necessaryLen) {
+        int ret = dis.read(position + bytesRead, buf, bytesRead, remain);
+        if (ret < 0) {
+          throw new IOException("Premature EOF from inputStream (positional read returned " + ret
+              + ", was trying to read " + necessaryLen + " necessary bytes and " + extraLen
+              + " extra bytes, successfully read " + bytesRead);
+        }
+        bytesRead += ret;
+        remain -= ret;
+      }
+      copyToByteBuff(buf, 0, bytesRead, buff);
+      return (extraLen > 0) && (bytesRead == necessaryLen + extraLen);
+    }
+  }
+
+  private static boolean preadWithoutHeapBuffer(ByteBuff buff, FSDataInputStream dis, long position,
+      int necessaryLen, int extraLen) throws IOException {
+    int remain = necessaryLen + extraLen, bytesRead = 0, idx = 0;
+    ByteBuffer[] buffers = buff.nioByteBuffers();
+    ByteBuffer cur = buffers[idx];
     while (bytesRead < necessaryLen) {
-      int ret = dis.read(position + bytesRead, buf, bytesRead, remain);
+      while (!cur.hasRemaining()) {
+        if (++idx >= buffers.length) {
+          throw new IOException("Not enough ByteBuffers to read the reminding " + remain + "bytes");
+        }
+        cur = buffers[idx];
+      }
+      cur.limit(cur.position() + Math.min(remain, cur.remaining()));
+      int ret = dis.read(position + bytesRead, cur);
       if (ret < 0) {
-        throw new IOException("Premature EOF from inputStream (positional read returned " + ret
+        throw new IOException("Premature EOF from inputStream (read returned " + ret
             + ", was trying to read " + necessaryLen + " necessary bytes and " + extraLen
             + " extra bytes, successfully read " + bytesRead);
       }
       bytesRead += ret;
       remain -= ret;
     }
-    // Copy the bytes from on-heap bytes[] to ByteBuffer[] now, and after resolving HDFS-3246, we
-    // will read the bytes to ByteBuffer[] directly without allocating any on-heap byte[].
-    // TODO I keep the bytes copy here, because I want to abstract the ByteBuffer[]
-    // preadWithExtra method for the upper layer, only need to refactor this method if the
-    // ByteBuffer pread is OK.
-    copyToByteBuff(buf, 0, bytesRead, buff);
     return (extraLen > 0) && (bytesRead == necessaryLen + extraLen);
   }
 
