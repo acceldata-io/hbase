@@ -38,7 +38,7 @@
   </parent>
   <groupId>org.apache.hbase</groupId>
   <artifactId>hbase</artifactId>
-  <version>${revision}</version>
+  <version>2.6.2.3.3.6.1-1</version>
   <packaging>pom</packaging>
   <name>Apache HBase</name>
   <description>Apache HBase is the Hadoop database. Use it when you need
@@ -513,17 +513,32 @@
     <url>https://issues.apache.org/jira/browse/HBASE</url>
   </issueManagement>
   <distributionManagement>
-    <site>
-      <id>hbase.apache.org</id>
-      <name>HBase Website at hbase.apache.org</name>
-      <!-- On why this is the tmp dir and not hbase.apache.org, see
-        https://issues.apache.org/jira/browse/HBASE-7593?focusedCommentId=13555866&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-13555866
-       -->
-      <url>file:///tmp</url>
-    </site>
+    <repository>
+      <id>nexus-releases</id>
+      <name>Releases</name>
+      <url>https://repo1.acceldata.dev/repository/odp-release/</url>
+    </repository>
+    <snapshotRepository>
+      <id>nexus-snapshots</id>
+      <name>Snapshot</name>
+      <url>https://repo1.acceldata.dev/repository/odp-snapshot/</url>
+    </snapshotRepository>
   </distributionManagement>
+  <repositories>
+    <repository>
+      <id>acceldata repo</id>
+      <name>acceldata repo</name>
+      <url>https://repo1.acceldata.dev/repository/odp-central/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
   <properties>
-    <revision>2.6.2</revision>
+    <revision>2.6.2.3.3.6.1-1</revision>
     <!-- override on command line to have generated LICENSE files include
          diagnostic info for verifying notice requirements -->
     <license.debug.print.included>false</license.debug.print.included>
@@ -540,15 +555,15 @@
     <tar.name>${project.build.finalName}.tar.gz</tar.name>
     <maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm</maven.build.timestamp.format>
     <buildDate>${maven.build.timestamp}</buildDate>
-    <compileSource>1.8</compileSource>
-    <releaseTarget>8</releaseTarget>
+    <compileSource>11</compileSource>
+    <releaseTarget>11</releaseTarget>
     <!-- Build dependencies -->
     <!-- The $revision feature is introduced in 3.5.0 -->
     <maven.min.version>3.5.0</maven.min.version>
     <java.min.version>${compileSource}</java.min.version>
     <!-- Dependencies -->
     <hadoop-two.version>2.10.2</hadoop-two.version>
-    <hadoop-three.version>3.4.1</hadoop-three.version>
+    <hadoop-three.version>3.3.6.3.3.6.1-1</hadoop-three.version>
     <!-- These must be defined here for downstream build tools that don't look at profiles.
          They ought to match the values found in our default hadoop profile, which is
          currently "hadoop-2.0". See HBASE-15925 for more info. -->
@@ -614,7 +629,7 @@
     <protobuf.plugin.version>0.6.1</protobuf.plugin.version>
     <thrift.path>thrift</thrift.path>
     <thrift.version>0.14.1</thrift.version>
-    <zookeeper.version>3.8.4</zookeeper.version>
+    <zookeeper.version>3.8.4.3.3.6.1-1</zookeeper.version>
     <jline.version>2.11</jline.version>
     <slf4j.version>1.7.33</slf4j.version>
     <clover.version>4.0.3</clover.version>
