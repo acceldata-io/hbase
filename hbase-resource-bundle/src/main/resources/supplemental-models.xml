@@ -2689,7 +2689,7 @@ Copyright (c) 2007-2017 The JRuby project
     <project> <!-- v3.4.0 comes in via HADOOP-17317 -->
       <groupId>dnsjava</groupId>
       <artifactId>dnsjava</artifactId>
-      <version>3.4.0</version>
+      <version>3.6.1</version>
       <name>dnsjava</name>
       <licenses>
         <license>
@@ -2828,6 +2828,81 @@ Copyright (c) 2007-2017 The JRuby project
         <name>The Apache Software Foundation</name>
         <url>http://www.apache.org/</url>
       </organization>
+      <licenses>
+        <license>
+          <name>Apache License, Version 2.0</name>
+          <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+          <distribution>repo</distribution>
+        </license>
+      </licenses>
+    </project>
+  </supplement>
+  <supplement>
+    <project>
+      <groupId>org.jboss.logging</groupId>
+      <artifactId>jboss-logging</artifactId>
+      <version>3.3.1.Final</version>
+      <name>JBoss Logging 3</name>
+      <licenses>
+        <license>
+          <name>Apache License, Version 2.0</name>
+          <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+          <distribution>repo</distribution>
+        </license>
+      </licenses>
+    </project>
+  </supplement>
+  <supplement>
+    <project>
+      <groupId>org.jboss.threads</groupId>
+      <artifactId>jboss-threads</artifactId>
+      <version>2.3.6.Final</version>
+      <name>JBoss Threads</name>
+      <licenses>
+        <license>
+          <name>Apache License, Version 2.0</name>
+          <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+          <distribution>repo</distribution>
+        </license>
+      </licenses>
+    </project>
+  </supplement>
+  <supplement>
+    <project>
+      <groupId>org.jboss.xnio</groupId>
+      <artifactId>xnio-api</artifactId>
+      <version>3.8.16.Final</version>
+      <name>XNIO API</name>
+      <licenses>
+        <license>
+          <name>Apache License, Version 2.0</name>
+          <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+          <distribution>repo</distribution>
+        </license>
+      </licenses>
+    </project>
+  </supplement>
+  <supplement>
+    <project>
+      <groupId>org.wildfly.client</groupId>
+      <artifactId>wildfly-client-config</artifactId>
+      <version>1.0.1.Final</version>
+      <name>WildFly Client Configuration</name>
+      <licenses>
+        <license>
+          <name>Apache License, Version 2.0</name>
+          <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+          <distribution>repo</distribution>
+        </license>
+      </licenses>
+    </project>
+  </supplement>
+  <supplement>
+    <project>
+      <groupId>org.wildfly.common</groupId>
+      <artifactId>wildfly-common</artifactId>
+      <version>1.5.4.Final</version>
+      <name>WildFly Common</name>
       <licenses>
         <license>
           <name>Apache License, Version 2.0</name>
