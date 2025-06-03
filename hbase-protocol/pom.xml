@@ -33,11 +33,6 @@
     <maven.javadoc.skip>true</maven.javadoc.skip>
   </properties>
   <dependencies>
-    <!-- General dependencies -->
-    <dependency>
-      <groupId>com.google.protobuf</groupId>
-      <artifactId>protobuf-java</artifactId>
-    </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
