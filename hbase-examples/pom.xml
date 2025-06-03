@@ -110,6 +110,7 @@
     <dependency>
       <groupId>com.google.protobuf</groupId>
       <artifactId>protobuf-java</artifactId>
+      <version>${internal.protobuf.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.curator</groupId>

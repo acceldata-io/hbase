@@ -628,9 +628,6 @@
     <opentelemetry-javaagent.version>1.15.0</opentelemetry-javaagent.version>
     <log4j2.version>2.17.2</log4j2.version>
     <mockito.version>4.11.0</mockito.version>
-    <!--Internally we use a different version of protobuf. See hbase-protocol-shaded-->
-    <external.protobuf.groupid>com.google.protobuf</external.protobuf.groupid>
-    <external.protobuf.version>2.5.0</external.protobuf.version>
     <external.protoc.version>${external.protobuf.version}</external.protoc.version>
     <!--
       Version of protobuf that hbase uses internally (we shade our pb) Must match what is out
@@ -1340,11 +1337,6 @@
         <version>1.2</version>
       </dependency>
       <dependency>
-        <groupId>com.google.protobuf</groupId>
-        <artifactId>protobuf-java</artifactId>
-        <version>${external.protobuf.version}</version>
-      </dependency>
-      <dependency>
         <!--This lib has JspC in it. Needed precompiling jsps in hbase-rest, etc.-->
         <groupId>org.apache.tomcat</groupId>
         <artifactId>tomcat-jasper</artifactId>
@@ -1890,7 +1882,6 @@
           <artifactId>protobuf-maven-plugin</artifactId>
           <version>${protobuf.plugin.version}</version>
           <configuration>
-            <protocArtifact>${external.protobuf.groupid}:protoc:${external.protoc.version}:exe:${os.detected.classifier}</protocArtifact>
             <protoSourceRoot>${basedir}/src/main/protobuf/</protoSourceRoot>
             <clearOutputDirectory>false</clearOutputDirectory>
             <checkStaleness>true</checkStaleness>
@@ -5143,10 +5134,6 @@
           <arch>aarch64</arch>
         </os>
       </activation>
-      <properties>
-        <external.protobuf.groupid>org.openlabtesting.protobuf</external.protobuf.groupid>
-        <external.protoc.version>2.5.0.2</external.protoc.version>
-      </properties>
     </profile>
   </profiles>
 </project>
