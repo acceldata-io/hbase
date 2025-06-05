@@ -161,6 +161,12 @@
           <artifactId>hadoop-common</artifactId>
           <type>test-jar</type>
           <scope>compile</scope>
+          <exclusions>
+            <exclusion>
+              <groupId>com.google.protobuf</groupId>
+              <artifactId>protobuf-java</artifactId>
+            </exclusion>
+          </exclusions>
         </dependency>
         <dependency>
           <groupId>org.apache.hadoop</groupId>
@@ -173,6 +179,12 @@
           <artifactId>hadoop-mapreduce-client-app</artifactId>
           <type>test-jar</type>
           <scope>compile</scope>
+          <exclusions>
+          <exclusion>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+          </exclusion>
+          </exclusions>
         </dependency>
         <dependency>
           <groupId>org.apache.hadoop</groupId>
@@ -218,6 +230,12 @@
           <artifactId>hadoop-mapreduce-client-app</artifactId>
           <type>test-jar</type>
           <scope>compile</scope>
+          <exclusions>
+            <exclusion>
+              <groupId>com.google.protobuf</groupId>
+              <artifactId>protobuf-java</artifactId>
+            </exclusion>
+          </exclusions>
         </dependency>
         <dependency>
           <groupId>org.apache.hadoop</groupId>

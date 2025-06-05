@@ -195,6 +195,10 @@
               <groupId>javax.xml.bind</groupId>
               <artifactId>jaxb-api</artifactId>
             </exclusion>
+              <exclusion>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protobuf-java</artifactId>
+              </exclusion>
           </exclusions>
         </dependency>
         <dependency>
@@ -212,6 +216,10 @@
               <artifactId>guava</artifactId>
             </exclusion>
             <exclusion>
+              <groupId>com.google.protobuf</groupId>
+              <artifactId>protobuf-java</artifactId>
+            </exclusion>
+            <exclusion>
               <groupId>javax.xml.bind</groupId>
               <artifactId>jaxb-api</artifactId>
             </exclusion>
@@ -225,6 +233,10 @@
             <exclusion>
               <groupId>com.google.guava</groupId>
               <artifactId>guava</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>com.google.protobuf</groupId>
+              <artifactId>protobuf-java</artifactId>
             </exclusion>
             <exclusion>
               <groupId>javax.xml.bind</groupId>
@@ -262,6 +274,10 @@
             <exclusion>
               <groupId>com.google.guava</groupId>
               <artifactId>guava</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>com.google.protobuf</groupId>
+              <artifactId>protobuf-java</artifactId>
             </exclusion>
             <exclusion>
               <groupId>org.apache.zookeeper</groupId>
@@ -316,6 +332,10 @@
             <exclusion>
               <groupId>com.google.guava</groupId>
               <artifactId>guava</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>com.google.protobuf</groupId>
+              <artifactId>protobuf-java</artifactId>
             </exclusion>
             <exclusion>
               <groupId>javax.ws.rs</groupId>

@@ -339,6 +339,12 @@
           <groupId>org.apache.kerby</groupId>
           <artifactId>kerb-simplekdc</artifactId>
           <scope>test</scope>
+          <exclusions>
+            <exclusion>
+              <groupId>com.google.protobuf</groupId>
+              <artifactId>protobuf-java</artifactId>
+            </exclusion>
+          </exclusions>
         </dependency>
       </dependencies>
       <build>

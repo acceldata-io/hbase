@@ -177,6 +177,10 @@
               <groupId>net.java.dev.jets3t</groupId>
               <artifactId>jets3t</artifactId>
             </exclusion>
+              <exclusion>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protobuf-java</artifactId>
+              </exclusion>
             <exclusion>
               <groupId>javax.servlet.jsp</groupId>
               <artifactId>jsp-api</artifactId>
