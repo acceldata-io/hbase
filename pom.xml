@@ -38,7 +38,7 @@
   </parent>
   <groupId>org.apache.hbase</groupId>
   <artifactId>hbase</artifactId>
-  <version>2.6.2.3.3.6.1-SNAPSHOT</version>
+  <version>2.6.2.3.3.6.2-1</version>
   <packaging>pom</packaging>
   <name>Apache HBase</name>
   <description>Apache HBase is the Hadoop database. Use it when you need
@@ -516,12 +516,12 @@
     <repository>
       <id>nexus-releases</id>
       <name>Releases</name>
-      <url>https://repo1.acceldata.dev/repository/odp-staging-release/</url>
+      <url>https://repo1.acceldata.dev/repository/odp-release/</url>
     </repository>
     <snapshotRepository>
       <id>nexus-snapshots</id>
       <name>Snapshot</name>
-      <url>https://repo1.acceldata.dev/repository/odp-staging-snapshot/</url>
+      <url>https://repo1.acceldata.dev/repository/odp-snapshot/</url>
     </snapshotRepository>
   </distributionManagement>
   <repositories>
@@ -539,7 +539,7 @@
     <repository>
             <id>acceldata staging repo</id>
             <name>acceldata staging repo</name>
-            <url>https://repo1.acceldata.dev/repository/odp-staging-central/</url>
+            <url>https://repo1.acceldata.dev/repository/odp-central/</url>
             <releases>
         <enabled>true</enabled>
       </releases>
@@ -549,7 +549,7 @@
     </repository>
   </repositories>
   <properties>
-    <revision>2.6.2.3.3.6.1-SNAPSHOT</revision>
+    <revision>2.6.2.3.3.6.2-1</revision>
     <!-- override on command line to have generated LICENSE files include
          diagnostic info for verifying notice requirements -->
     <license.debug.print.included>false</license.debug.print.included>
@@ -566,15 +566,15 @@
     <tar.name>${project.build.finalName}.tar.gz</tar.name>
     <maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm</maven.build.timestamp.format>
     <buildDate>${maven.build.timestamp}</buildDate>
-    <compileSource>11</compileSource>
-    <releaseTarget>11</releaseTarget>
+    <compileSource>1.8</compileSource>
+    <releaseTarget>8</releaseTarget>
     <!-- Build dependencies -->
     <!-- The $revision feature is introduced in 3.5.0 -->
     <maven.min.version>3.5.0</maven.min.version>
     <java.min.version>${compileSource}</java.min.version>
     <!-- Dependencies -->
     <hadoop-two.version>2.10.2</hadoop-two.version>
-    <hadoop-three.version>3.3.6.3.3.6.1-SNAPSHOT</hadoop-three.version>
+    <hadoop-three.version>3.3.6.3.3.6.2-1</hadoop-three.version>
     <!-- These must be defined here for downstream build tools that don't look at profiles.
          They ought to match the values found in our default hadoop profile, which is
          currently "hadoop-2.0". See HBASE-15925 for more info. -->
@@ -592,7 +592,7 @@
       in the dependencyManagement section as it could still lead to different versions of netty
       modules and cause trouble if we only rely on transitive dependencies.
     -->
-    <netty4.version>4.1.116.Final</netty4.version>
+    <netty4.version>4.1.121.Final</netty4.version>
     <!-- end HBASE-15925 default hadoop compatibility values -->
     <audience-annotations.version>0.13.0</audience-annotations.version>
     <!--
@@ -615,17 +615,18 @@
       Note that the version of jackson-[annotations,core,databind] must be kept in sync with the
       version of jackson-jaxrs-json-provider shipped in hbase-thirdparty.
     -->
-    <jackson.version>2.17.2</jackson.version>
-    <jackson.databind.version>2.17.2</jackson.databind.version>
+    <jackson.version>2.19.0</jackson.version>
+    <jackson.databind.version>2.19.0</jackson.databind.version>
     <jaxb-api.version>2.3.1</jaxb-api.version>
     <servlet.api.version>3.1.0</servlet.api.version>
     <wx.rs.api.version>2.1.1</wx.rs.api.version>
     <tomcat.jasper.version>9.0.93</tomcat.jasper.version>
-    <jruby.version>9.3.13.0</jruby.version>
+    <jruby.version>9.4.8.0</jruby.version>
     <junit.version>4.13.2</junit.version>
     <hamcrest.version>1.3</hamcrest.version>
-    <opentelemetry.version>1.15.0</opentelemetry.version>
-    <opentelemetry-javaagent.version>1.15.0</opentelemetry-javaagent.version>
+    <opentelemetry.version>1.49.0</opentelemetry.version>
+    <opentelemetry-semconv.version>1.29.0-alpha</opentelemetry-semconv.version>
+    <opentelemetry-javaagent.version>2.15.0</opentelemetry-javaagent.version>
     <log4j2.version>2.17.2</log4j2.version>
     <mockito.version>4.11.0</mockito.version>
     <!--Internally we use a different version of protobuf. See hbase-protocol-shaded-->
@@ -636,11 +637,11 @@
       Version of protobuf that hbase uses internally (we shade our pb) Must match what is out
       in hbase-thirdparty include.
     -->
-    <internal.protobuf.version>4.28.2</internal.protobuf.version>
+    <internal.protobuf.version>4.30.2</internal.protobuf.version>
     <protobuf.plugin.version>0.6.1</protobuf.plugin.version>
     <thrift.path>thrift</thrift.path>
     <thrift.version>0.14.1</thrift.version>
-    <zookeeper.version>3.8.4.3.3.6.1-SNAPSHOT</zookeeper.version>
+    <zookeeper.version>3.8.4.3.3.6.2-1</zookeeper.version>
     <jline.version>2.11</jline.version>
     <slf4j.version>1.7.33</slf4j.version>
     <clover.version>4.0.3</clover.version>
@@ -663,7 +664,9 @@
     -->
     <checkstyle.version>8.29</checkstyle.version>
     <exec.maven.version>3.1.0</exec.maven.version>
-    <error-prone.version>2.28.0</error-prone.version>
+    <!-- Error Prone 2.31.0 is the latest version which supports running on JDK 11, see
+    https://github.com/google/error-prone/releases/tag/v2.31.0 for details -->
+    <error-prone.version>2.31.0</error-prone.version>
     <jamon.plugin.version>2.4.2</jamon.plugin.version>
     <lifecycle.mapping.version>1.0.0</lifecycle.mapping.version>
     <maven.antrun.version>1.8</maven.antrun.version>
@@ -695,7 +698,7 @@
         databind] must be kept in sync with the version of jackson-jaxrs-json-provider shipped in
         hbase-thirdparty.
     -->
-    <hbase-thirdparty.version>4.1.10</hbase-thirdparty.version>
+    <hbase-thirdparty.version>4.1.11</hbase-thirdparty.version>
     <!-- Coverage properties -->
     <jacoco.version>0.8.8</jacoco.version>
     <jacocoArgLine/>
@@ -1411,9 +1414,9 @@
         <scope>import</scope>
       </dependency>
       <dependency>
-        <groupId>io.opentelemetry</groupId>
+        <groupId>io.opentelemetry.semconv</groupId>
         <artifactId>opentelemetry-semconv</artifactId>
-        <version>${opentelemetry.version}-alpha</version>
+        <version>${opentelemetry-semconv.version}</version>
       </dependency>
       <dependency>
         <groupId>io.opentelemetry.javaagent</groupId>
