@@ -510,6 +510,7 @@
                       <!-- We already concat NOTICE, safe to drop individual ones -->
                       <exclude>LICENSE</exclude>
                       <exclude>NOTICE</exclude>
+                      <exclude>META-INF/versions/21/**</exclude>
                     </excludes>
                   </filter>
                   <filter>
