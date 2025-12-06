@@ -1576,8 +1576,13 @@
         <artifactId>aircompressor</artifactId>
         <version>${aircompressor.version}</version>
       </dependency>
+      <!--
+        The official lz4-java project has been discontinued, we have to move to
+        a community fork for addressing CVE-2025-12183 since 1.8.1+,
+        see: https://sites.google.com/sonatype.com/vulnerabilities/cve-2025-12183
+      -->
       <dependency>
-        <groupId>org.lz4</groupId>
+        <groupId>at.yawk.lz4</groupId>
         <artifactId>lz4-java</artifactId>
         <version>${lz4.version}</version>
       </dependency>
