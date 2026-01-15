@@ -52,6 +52,7 @@ import org.apache.hadoop.hbase.security.SaslUtil;
 import org.apache.hadoop.hbase.security.SaslUtil.QualityOfProtection;
 import org.apache.hadoop.hbase.security.User;
 import org.apache.hadoop.hbase.security.UserProvider;
+import org.apache.hadoop.hbase.security.provider.SaslServerAuthenticationProviders;
 import org.apache.hadoop.hbase.security.token.AuthenticationTokenSecretManager;
 import org.apache.hadoop.hbase.util.EnvironmentEdgeManager;
 import org.apache.hadoop.hbase.util.GsonUtil;
@@ -96,6 +97,7 @@ public abstract class RpcServer implements RpcServerInterface, ConfigurationObse
   private final boolean authorize;
   private volatile boolean isOnlineLogProviderEnabled;
   protected boolean isSecurityEnabled;
+  protected final SaslServerAuthenticationProviders saslProviders;
 
   public static final byte CURRENT_VERSION = 0;
 
@@ -308,6 +310,7 @@ public abstract class RpcServer implements RpcServerInterface, ConfigurationObse
       saslProps = Collections.emptyMap();
       serverPrincipal = HConstants.EMPTY_STRING;
     }
+    this.saslProviders = new SaslServerAuthenticationProviders(conf);
 
     this.isOnlineLogProviderEnabled = getIsOnlineLogProviderEnabled(conf);
     this.scheduler = scheduler;
