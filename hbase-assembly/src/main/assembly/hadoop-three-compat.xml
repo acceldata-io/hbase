@@ -164,6 +164,40 @@
   </files>
 
   <dependencySets>
+    <dependencySet>
+      <outputDirectory>lib</outputDirectory>
+      <useTransitiveDependencies>true</useTransitiveDependencies>
+      <!-- Exclude artifacts added in the sub-directories to avoid duplication -->
+      <excludes>
+        <!-- Exclude the shaded jars that go in the lib/shaded-clients directory -->
+        <exclude>org.apache.hbase:hbase-shaded-client</exclude>
+        <exclude>org.apache.hbase:hbase-shaded-mapreduce</exclude>
+        <exclude>org.apache.hbase:hbase-shaded-client-byo-hadoop</exclude>
+        <!-- Exclude the Ruby jar that goes in the lib/ruby directory -->
+        <exclude>org.jruby:jruby-complete</exclude>
+        <!-- Exclude jars that go into the lib/client-facing-thirdparty directory -->
+        <exclude>com.github.stephenc.findbugs:findbugs-annotations</exclude>
+        <exclude>commons-logging:commons-logging</exclude>
+        <exclude>log4j:log4j</exclude>
+        <exclude>org.apache.htrace:htrace-core4</exclude>
+        <exclude>org.apache.htrace:htrace-core</exclude>
+        <exclude>org.apache.yetus:audience-annotations</exclude>
+        <exclude>org.slf4j:*</exclude>
+        <exclude>org.apache.logging.log4j:*</exclude>
+        <exclude>io.opentelemetry:*</exclude>
+        <exclude>io.opentelemetry.semconv:*</exclude>
+        <!-- Exclude the opentelemetry agent that goes in the lib/trace directory -->
+        <exclude>io.opentelemetry.javaagent:*</exclude>
+        <!-- Exclude jline2 which goes into lib/zk-client. jline3 is a different artifact-->
+        <exclude>jline:jline</exclude>
+        <!-- These two exclusions are added here to preserve previous behaviour, and are not included in sub-directories -->
+        <!-- TODO investigate using the provided mechanism for these -->
+        <exclude>com.sun.jersey:*</exclude>
+        <exclude>com.sun.jersey.contribs:*</exclude>
+        <!-- FIXME remove when jaxws-ri is removed from assembly -->
+        <exclude>com.sun.xml.ws:jaxws-ri:pom</exclude>
+      </excludes>
+    </dependencySet>
     <!-- Add jruby-complete to hbase_home/lib/ruby.
          Update JRUBY_PACKAGED_WITH_HBASE in bin/hbase and hbase.cmd if you would like to update outputDirectory below -->
     <dependencySet>
@@ -211,6 +245,7 @@
         <include>org.slf4j:*</include>
         <include>org.apache.logging.log4j:*</include>
         <include>io.opentelemetry:*</include>
+        <include>io.opentelemetry.semconv:*</include>
       </includes>
     </dependencySet>
     <dependencySet>
