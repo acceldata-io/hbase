@@ -626,7 +626,7 @@
       Version of protobuf that hbase uses internally (we shade our pb) Must match what is out
       in hbase-thirdparty include.
     -->
-    <internal.protobuf.version>4.31.1</internal.protobuf.version>
+    <internal.protobuf.version>4.34.0</internal.protobuf.version>
     <protobuf.plugin.version>0.6.1</protobuf.plugin.version>
     <thrift.path>thrift</thrift.path>
     <thrift.version>0.14.1</thrift.version>
@@ -1287,26 +1287,6 @@
         <artifactId>joni</artifactId>
         <version>${joni.version}</version>
       </dependency>
-      <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-annotations</artifactId>
-        <version>${jackson.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-core</artifactId>
-        <version>${jackson.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-databind</artifactId>
-        <version>${jackson.databind.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jamon</groupId>
-        <artifactId>jamon-runtime</artifactId>
-        <version>${jamon-runtime.version}</version>
-      </dependency>
       <!-- REST dependencies -->
       <dependency>
         <groupId>javax.servlet</groupId>
@@ -1595,6 +1575,13 @@
         <groupId>io.netty</groupId>
         <artifactId>netty-bom</artifactId>
         <version>${netty4.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson</groupId>
+        <artifactId>jackson-bom</artifactId>
+        <version>${jackson.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
