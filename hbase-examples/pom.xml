@@ -23,12 +23,19 @@
   <parent>
     <groupId>org.apache.hbase</groupId>
     <artifactId>hbase-build-configuration</artifactId>
-    <version>2.6.2.3.3.6.3-SNAPSHOT</version>
+    <version>2.6.2.3.3.6.4-1</version>
     <relativePath>../hbase-build-configuration</relativePath>
   </parent>
   <artifactId>hbase-examples</artifactId>
   <name>Apache HBase - Examples</name>
   <description>Examples of HBase usage</description>
+  <properties>
+    <!--
+      Version of protobuf that hbase uses internally (we shade our pb) Must match what is out
+      in hbase-thirdparty include.
+    -->
+    <internal.protobuf.version>4.31.1</internal.protobuf.version>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.apache.hbase.thirdparty</groupId>
