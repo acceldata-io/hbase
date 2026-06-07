@@ -1287,6 +1287,11 @@
         <artifactId>joni</artifactId>
         <version>${joni.version}</version>
       </dependency>
+      <dependency>
+        <groupId>org.jamon</groupId>
+        <artifactId>jamon-runtime</artifactId>
+        <version>${jamon-runtime.version}</version>
+      </dependency>
       <!-- REST dependencies -->
       <dependency>
         <groupId>javax.servlet</groupId>
