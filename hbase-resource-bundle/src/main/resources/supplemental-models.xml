@@ -2707,10 +2707,10 @@ Copyright (c) 2007-2017 The JRuby project
     </project>
   </supplement>
   <supplement>
-    <project> <!-- v3.4.0 comes in via HADOOP-17317 -->
+    <project> <!-- v3.6.0 comes in via HADOOP-19237|17317 -->
       <groupId>dnsjava</groupId>
       <artifactId>dnsjava</artifactId>
-      <version>3.4.0</version>
+      <version>3.6.0</version>
       <name>dnsjava</name>
       <licenses>
         <license>
