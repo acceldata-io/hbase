@@ -638,7 +638,7 @@
       Version of protobuf that hbase uses internally (we shade our pb) Must match what is out
       in hbase-thirdparty include.
     -->
-    <internal.protobuf.version>4.31.1</internal.protobuf.version>
+    <internal.protobuf.version>4.34.0</internal.protobuf.version>
     <protobuf.plugin.version>0.6.1</protobuf.plugin.version>
     <thrift.path>thrift</thrift.path>
     <thrift.version>0.14.1</thrift.version>
@@ -699,7 +699,7 @@
         databind] must be kept in sync with the version of jackson-jaxrs-json-provider shipped in
         hbase-thirdparty.
     -->
-    <hbase-thirdparty.version>4.1.12</hbase-thirdparty.version>
+    <hbase-thirdparty.version>4.1.13</hbase-thirdparty.version>
     <!-- Coverage properties -->
     <jacoco.version>0.8.8</jacoco.version>
     <jacocoArgLine/>
@@ -1628,6 +1628,13 @@
         <groupId>com.sun.mail</groupId>
         <artifactId>jakarta.mail</artifactId>
         <version>1.6.8</version>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson</groupId>
+        <artifactId>jackson-bom</artifactId>
+        <version>${jackson.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
       </dependency>
 </dependencies>
   </dependencyManagement>
