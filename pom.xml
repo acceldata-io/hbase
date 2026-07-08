@@ -595,6 +595,9 @@
     <commons-io.version>2.18.0</commons-io.version>
     <!-- CVE-2025-48924: commons-lang3 uncontrolled recursion in ClassUtils.getClass, fixed in 3.18.0 -->
     <commons-lang3.version>3.18.0</commons-lang3.version>
+    <!-- Comes transitively from Hadoop. Pinned to override the vulnerable version.
+         CVE-2026-45205: commons-configuration2 YAML cyclic-input StackOverflow DoS, fixed in 2.15.0 -->
+    <commons-configuration2.version>2.15.0</commons-configuration2.version>
     <commons-math.version>3.6.1</commons-math.version>
     <commons-cli.version>1.5.0</commons-cli.version>
     <disruptor.version>3.4.4</disruptor.version>
@@ -1230,6 +1233,12 @@
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-math3</artifactId>
         <version>${commons-math.version}</version>
+      </dependency>
+      <dependency>
+        <!-- Transitive from Hadoop; pinned to a fixed version for CVE-2026-45205 -->
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-configuration2</artifactId>
+        <version>${commons-configuration2.version}</version>
       </dependency>
       <dependency>
         <groupId>commons-cli</groupId>
