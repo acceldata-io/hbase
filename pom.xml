@@ -598,6 +598,9 @@
     <!-- Comes transitively from Hadoop. Pinned to override the vulnerable version.
          CVE-2026-45205: commons-configuration2 YAML cyclic-input StackOverflow DoS, fixed in 2.15.0 -->
     <commons-configuration2.version>2.15.0</commons-configuration2.version>
+    <!-- Comes transitively from Hadoop. Pinned to override the vulnerable version.
+         CVE-2023-3635: okio GzipSource signed/unsigned DoS, fixed in 1.17.6 (1.x line) -->
+    <okio.version>1.17.6</okio.version>
     <commons-math.version>3.6.1</commons-math.version>
     <commons-cli.version>1.5.0</commons-cli.version>
     <disruptor.version>3.4.4</disruptor.version>
@@ -1239,6 +1242,12 @@
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-configuration2</artifactId>
         <version>${commons-configuration2.version}</version>
+      </dependency>
+      <dependency>
+        <!-- Transitive from Hadoop; pinned to a fixed version for CVE-2023-3635 -->
+        <groupId>com.squareup.okio</groupId>
+        <artifactId>okio</artifactId>
+        <version>${okio.version}</version>
       </dependency>
       <dependency>
         <groupId>commons-cli</groupId>
