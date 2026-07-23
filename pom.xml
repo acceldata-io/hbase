@@ -1623,7 +1623,13 @@
         <artifactId>okio</artifactId>
         <version>3.4.0</version>
       </dependency>
-    </dependencies>
+    
+      <dependency>
+        <groupId>com.sun.mail</groupId>
+        <artifactId>jakarta.mail</artifactId>
+        <version>1.6.8</version>
+      </dependency>
+</dependencies>
   </dependencyManagement>
   <dependencies>
     <!--REMOVE THIS. HERE TEMPORARILY.
