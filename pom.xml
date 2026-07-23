@@ -809,6 +809,7 @@
     <!-- Required for testing LDAP integration -->
     <apacheds.version>2.0.0.AM26</apacheds.version>
     <ldap-api.version>2.0.0</ldap-api.version>
+      <okio.version>3.4.0</okio.version>
   </properties>
   <!-- Sorted by groups of dependencies then groupId and artifactId -->
   <dependencyManagement>
@@ -1609,6 +1610,18 @@
         <version>${netty4.version}</version>
         <type>pom</type>
         <scope>import</scope>
+      </dependency>
+    
+      <dependency>
+        <groupId>com.squareup.okio</groupId>
+        <artifactId>okio-jvm</artifactId>
+        <version>3.4.0</version>
+      </dependency>
+    
+      <dependency>
+        <groupId>com.squareup.okio</groupId>
+        <artifactId>okio</artifactId>
+        <version>3.4.0</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
