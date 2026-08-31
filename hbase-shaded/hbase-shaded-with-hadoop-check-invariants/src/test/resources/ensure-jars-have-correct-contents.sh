@@ -68,7 +68,7 @@ fi
 IFS=: read -r -d '' -a artifact_list < <(printf '%s\0' "$1")
 
 # we have to allow the directories that lead to the hbase dirs
-allowed_expr="(^org/$|^org/apache/$|^org/apache/hadoop/$"
+allowed_expr="(^org/$|^org/apache/$|^org/apache/hadoop/$|^javax/$|^javax/servlet/$"
 # We allow the following things to exist in our client artifacts:
 #   * classes in packages that start with org.apache.hadoop.hbase, which by
 #     convention should be in a path that looks like org/apache/hadoop/hbase
@@ -98,6 +98,8 @@ allowed_expr+="|^about.html$"
 allowed_expr+="|^jetty-dir.css$"
 # Coming from Guava, see https://github.com/google/guava/commit/2cc8c5eddb587db3ac12dacdd5563e79a4681ec4
 allowed_expr+="|^org/jspecify/$|^org/jspecify/annotations/$|^org/jspecify/annotations/.*\.class$"
+# JSP API - needed for HBase REST server components
+allowed_expr+="|^javax/servlet/jsp/"
 
 if [ -n "${allow_hadoop}" ]; then
   #   * classes in packages that start with org.apache.hadoop, which by
