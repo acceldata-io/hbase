@@ -363,6 +363,10 @@
           <scope>test</scope>
           <exclusions>
             <exclusion>
+              <groupId>org.hamcrest</groupId>
+              <artifactId>hamcrest</artifactId>
+            </exclusion>
+            <exclusion>
               <groupId>com.google.guava</groupId>
               <artifactId>guava</artifactId>
             </exclusion>
@@ -453,6 +457,10 @@
           <artifactId>hadoop-minicluster</artifactId>
           <scope>test</scope>
           <exclusions>
+            <exclusion>
+              <groupId>org.hamcrest</groupId>
+              <artifactId>hamcrest</artifactId>
+            </exclusion>
             <exclusion>
               <groupId>com.google.guava</groupId>
               <artifactId>guava</artifactId>

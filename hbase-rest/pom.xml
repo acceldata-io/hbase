@@ -512,6 +512,10 @@
                 <groupId>com.sun.jersey</groupId>
                 <artifactId>jersey-core</artifactId>
               </exclusion>
+              <exclusion>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest</artifactId>
+              </exclusion>
             </exclusions>
           </dependency>
           <dependency>
