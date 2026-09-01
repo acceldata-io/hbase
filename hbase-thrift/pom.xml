@@ -522,6 +522,10 @@
           <scope>test</scope>
           <exclusions>
             <exclusion>
+              <groupId>org.hamcrest</groupId>
+              <artifactId>hamcrest</artifactId>
+            </exclusion>
+            <exclusion>
               <groupId>com.google.guava</groupId>
               <artifactId>guava</artifactId>
             </exclusion>
@@ -593,6 +597,10 @@
             <exclusion>
               <groupId>javax.ws.rs</groupId>
               <artifactId>jsr311-api</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.hamcrest</groupId>
+              <artifactId>hamcrest</artifactId>
             </exclusion>
           </exclusions>
         </dependency>

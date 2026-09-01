@@ -197,6 +197,12 @@
           <groupId>org.apache.hadoop</groupId>
           <artifactId>hadoop-minicluster</artifactId>
           <scope>test</scope>
+          <exclusions>
+            <exclusion>
+              <groupId>org.hamcrest</groupId>
+              <artifactId>hamcrest</artifactId>
+            </exclusion>
+          </exclusions>
         </dependency>
         <dependency>
           <groupId>org.apache.hadoop</groupId>
@@ -270,6 +276,12 @@
           <groupId>org.apache.hadoop</groupId>
           <artifactId>hadoop-minicluster</artifactId>
           <scope>test</scope>
+          <exclusions>
+            <exclusion>
+              <groupId>org.hamcrest</groupId>
+              <artifactId>hamcrest</artifactId>
+            </exclusion>
+          </exclusions>
         </dependency>
         <dependency>
           <groupId>org.apache.hadoop</groupId>
