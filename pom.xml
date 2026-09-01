@@ -3415,6 +3415,10 @@
                 <artifactId>*</artifactId>
               </exclusion>
               <exclusion>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest</artifactId>
+              </exclusion>
+              <exclusion>
                 <groupId>org.glassfish.jersey.containers</groupId>
                 <artifactId>*</artifactId>
               </exclusion>
@@ -3532,6 +3536,10 @@
                 <artifactId>*</artifactId>
               </exclusion>
               <exclusion>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest</artifactId>
+              </exclusion>
+              <exclusion>
                 <groupId>org.glassfish.jersey.containers</groupId>
                 <artifactId>*</artifactId>
               </exclusion>
@@ -3600,6 +3608,10 @@
               <exclusion>
                 <groupId>org.glassfish.jersey.core</groupId>
                 <artifactId>*</artifactId>
+              </exclusion>
+              <exclusion>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest</artifactId>
               </exclusion>
               <exclusion>
                 <groupId>org.glassfish.jersey.containers</groupId>
@@ -3726,6 +3738,10 @@
                 <artifactId>*</artifactId>
               </exclusion>
               <exclusion>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest</artifactId>
+              </exclusion>
+              <exclusion>
                 <groupId>org.glassfish.jersey.containers</groupId>
                 <artifactId>*</artifactId>
               </exclusion>
@@ -3844,6 +3860,10 @@
                 <artifactId>*</artifactId>
               </exclusion>
               <exclusion>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest</artifactId>
+              </exclusion>
+              <exclusion>
                 <groupId>org.glassfish.jersey.containers</groupId>
                 <artifactId>*</artifactId>
               </exclusion>
@@ -3933,6 +3953,10 @@
               <exclusion>
                 <groupId>org.glassfish.jersey.core</groupId>
                 <artifactId>*</artifactId>
+              </exclusion>
+              <exclusion>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest</artifactId>
               </exclusion>
               <exclusion>
                 <groupId>org.glassfish.jersey.containers</groupId>
@@ -4086,6 +4110,10 @@
                 <artifactId>*</artifactId>
               </exclusion>
               <exclusion>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest</artifactId>
+              </exclusion>
+              <exclusion>
                 <groupId>org.glassfish.jersey.containers</groupId>
                 <artifactId>*</artifactId>
               </exclusion>
@@ -4175,6 +4203,10 @@
             <artifactId>hadoop-minicluster</artifactId>
             <version>${hadoop-two.version}</version>
             <exclusions>
+              <exclusion>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest</artifactId>
+              </exclusion>
               <!--If we comment this in, a few tests in hbase-mapreduce
                    fail. They depend on jersey-core somehow. But excluding
                    jersey-core here messes up hbase-it because jersey-core
@@ -4191,6 +4223,10 @@
               <exclusion>
                 <groupId>org.glassfish.jersey.core</groupId>
                 <artifactId>*</artifactId>
+              </exclusion>
+              <exclusion>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest</artifactId>
               </exclusion>
               <exclusion>
                 <groupId>org.glassfish.jersey.containers</groupId>
@@ -4375,6 +4411,10 @@
                 <artifactId>*</artifactId>
               </exclusion>
               <exclusion>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest</artifactId>
+              </exclusion>
+              <exclusion>
                 <groupId>org.glassfish.jersey.containers</groupId>
                 <artifactId>*</artifactId>
               </exclusion>
@@ -4504,6 +4544,10 @@
                 <artifactId>*</artifactId>
               </exclusion>
               <exclusion>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest</artifactId>
+              </exclusion>
+              <exclusion>
                 <groupId>org.glassfish.jersey.containers</groupId>
                 <artifactId>*</artifactId>
               </exclusion>
@@ -4610,6 +4654,10 @@
               <exclusion>
                 <groupId>org.glassfish.jersey.core</groupId>
                 <artifactId>*</artifactId>
+              </exclusion>
+              <exclusion>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest</artifactId>
               </exclusion>
               <exclusion>
                 <groupId>org.glassfish.jersey.containers</groupId>
@@ -4734,6 +4782,10 @@
                 <artifactId>*</artifactId>
               </exclusion>
               <exclusion>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest</artifactId>
+              </exclusion>
+              <exclusion>
                 <groupId>org.glassfish.jersey.containers</groupId>
                 <artifactId>*</artifactId>
               </exclusion>
@@ -4831,6 +4883,10 @@
               <exclusion>
                 <groupId>org.glassfish.jersey.core</groupId>
                 <artifactId>*</artifactId>
+              </exclusion>
+              <exclusion>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest</artifactId>
               </exclusion>
               <exclusion>
                 <groupId>org.glassfish.jersey.containers</groupId>
@@ -4976,6 +5032,10 @@
                 <artifactId>*</artifactId>
               </exclusion>
               <exclusion>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest</artifactId>
+              </exclusion>
+              <exclusion>
                 <groupId>org.glassfish.jersey.containers</groupId>
                 <artifactId>*</artifactId>
               </exclusion>
@@ -5062,6 +5122,10 @@
             <artifactId>hadoop-minicluster</artifactId>
             <version>${hadoop-three.version}</version>
             <exclusions>
+              <exclusion>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest</artifactId>
+              </exclusion>
               <!--If we comment this in, a few tests in hbase-mapreduce
                    fail. They depend on jersey-core somehow. But excluding
                    jersey-core here messes up hbase-it because jersey-core
