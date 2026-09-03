@@ -549,8 +549,8 @@
     </repository>
   </repositories>
   <properties>
-    <odp.release.version>3.4.3.0-1</odp.release.version>
-    <revision>2.6.4.3.4.3.0-1</revision>
+    <odp.release.version>3.4.3.0-SNAPSHOT</odp.release.version>
+    <revision>2.6.4.3.4.3.0-SNAPSHOT</revision>
     <!-- override on command line to have generated LICENSE files include
          diagnostic info for verifying notice requirements -->
     <license.debug.print.included>false</license.debug.print.included>
