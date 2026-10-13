@@ -738,7 +738,29 @@ public class HttpServer implements FilterContainer {
       conf);
     ctx.getServletContext().setAttribute(ADMINS_ACL, adminsAcl);
     addNoCacheFilter(ctx, conf);
+    ensureJspFactoryRegistered();
     return ctx;
+  }
+
+  /**
+   * Our webapps ship precompiled JSPs as individually-mapped servlets rather than relying on
+   * Jetty's generic {@code JspServlet}.
+   */
+  private static void ensureJspFactoryRegistered() {
+    try {
+      Class<?> jspFactoryClass = Class.forName("javax.servlet.jsp.JspFactory");
+      if (jspFactoryClass.getMethod("getDefaultFactory").invoke(null) == null) {
+        Class<?> jspFactoryImplClass = Class.forName("org.apache.jasper.runtime.JspFactoryImpl");
+        jspFactoryClass.getMethod("setDefaultFactory", jspFactoryClass).invoke(null,
+          jspFactoryImplClass.getDeclaredConstructor().newInstance());
+        LOG.debug("Eagerly registered the default JspFactory");
+      }
+    } catch (ClassNotFoundException e) {
+      // JSP support (tomcat-jasper) is not on the classpath for this webapp; nothing to do.
+    } catch (ReflectiveOperationException e) {
+      LOG.warn("Failed to eagerly register the default JspFactory; JSP pages may 500 "
+        + "intermittently depending on classloading order", e);
+    }
   }
 
   /**
