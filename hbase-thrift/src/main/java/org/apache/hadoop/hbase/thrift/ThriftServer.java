@@ -92,6 +92,7 @@ import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.security.sasl.AuthorizeCallback;
 import javax.security.sasl.SaslServer;
+import javax.servlet.http.HttpServlet;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
@@ -123,7 +124,6 @@ import org.apache.thrift.protocol.TProtocolFactory;
 import org.apache.thrift.server.THsHaServer;
 import org.apache.thrift.server.TNonblockingServer;
 import org.apache.thrift.server.TServer;
-import org.apache.thrift.server.TServlet;
 import org.apache.thrift.server.TThreadedSelectorServer;
 import org.apache.thrift.transport.TNonblockingServerSocket;
 import org.apache.thrift.transport.TNonblockingServerTransport;
@@ -361,7 +361,7 @@ public class ThriftServer extends Configured implements Tool {
    * @param protocolFactory protocolFactory
    * @return the servlet
    */
-  protected TServlet createTServlet(TProtocolFactory protocolFactory) {
+  protected HttpServlet createTServlet(TProtocolFactory protocolFactory) {
     return new ThriftHttpServlet(processor, protocolFactory, serviceUGI, httpUGI,
       hbaseServiceHandler, securityEnabled, doAsEnabled);
   }
@@ -372,7 +372,7 @@ public class ThriftServer extends Configured implements Tool {
    */
   protected void setupHTTPServer() throws IOException {
     TProtocolFactory protocolFactory = new TBinaryProtocol.Factory();
-    TServlet thriftHttpServlet = createTServlet(protocolFactory);
+    HttpServlet thriftHttpServlet = createTServlet(protocolFactory);
 
     // Set the default max thread number to 100 to limit
     // the number of concurrent requests so that Thrfit HTTP server doesn't OOM easily.

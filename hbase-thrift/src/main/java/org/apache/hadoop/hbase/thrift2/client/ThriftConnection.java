@@ -25,9 +25,11 @@ import java.io.InterruptedIOException;
 import java.lang.reflect.Constructor;
 import java.net.UnknownHostException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.TimeUnit;
 import javax.net.ssl.SSLException;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.hadoop.conf.Configuration;
@@ -45,13 +47,14 @@ import org.apache.hadoop.hbase.security.User;
 import org.apache.hadoop.hbase.thrift.Constants;
 import org.apache.hadoop.hbase.thrift2.generated.THBaseService;
 import org.apache.hadoop.hbase.util.Pair;
-import org.apache.http.HttpRequest;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.utils.HttpClientUtils;
-import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.protocol.HttpContext;
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.config.RequestConfig;
+import org.apache.hc.client5.http.impl.DefaultHttpRequestRetryStrategy;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.core5.http.HttpRequest;
+import org.apache.hc.core5.http.protocol.HttpContext;
+import org.apache.hc.core5.util.TimeValue;
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.protocol.TCompactProtocol;
@@ -232,28 +235,26 @@ public class ThriftConnection implements Connection {
     return new ThriftAdmin(client.getFirst(), client.getSecond(), conf);
   }
 
-  public static class DelayRetryHandler extends DefaultHttpRequestRetryHandler {
-    private long pause;
+  public static class DelayRetryHandler extends DefaultHttpRequestRetryStrategy {
+    private final long pause;
 
     public DelayRetryHandler(int retryCount, long pause) {
-      super(retryCount, true, Arrays.asList(InterruptedIOException.class,
-        UnknownHostException.class, SSLException.class));
+      // Thrift HTTP uses POST, which HttpClient 5 will not retry unless the request is treated
+      // as idempotent. handleAsIdempotent below preserves the previous always-retry behavior.
+      super(retryCount, TimeValue.ofMilliseconds(Math.max(pause, 0)),
+        Arrays.asList(InterruptedIOException.class, UnknownHostException.class, SSLException.class),
+        Collections.emptyList());
       this.pause = pause;
     }
 
     @Override
-    public boolean retryRequest(IOException exception, int executionCount, HttpContext context) {
-      // Don't sleep for retrying the first time
-      if (executionCount > 1 && pause > 0) {
-        try {
-          long sleepTime = ConnectionUtils.getPauseTime(pause, executionCount - 1);
-          Thread.sleep(sleepTime);
-        } catch (InterruptedException ie) {
-          // reset interrupt marker
-          Thread.currentThread().interrupt();
-        }
+    public TimeValue getRetryInterval(HttpRequest request, IOException exception, int execCount,
+      HttpContext context) {
+      // Don't pause before the first retry.
+      if (execCount > 1 && pause > 0) {
+        return TimeValue.ofMilliseconds(ConnectionUtils.getPauseTime(pause, execCount - 1));
       }
-      return super.retryRequest(exception, executionCount, context);
+      return TimeValue.ZERO_MILLISECONDS;
     }
 
     @Override
@@ -270,11 +271,12 @@ public class ThriftConnection implements Connection {
       HConstants.DEFAULT_HBASE_CLIENT_RETRIES_NUMBER);
     long pause = conf.getLong(HConstants.HBASE_CLIENT_PAUSE, 5);
     HttpClientBuilder builder = HttpClientBuilder.create();
-    RequestConfig.Builder requestBuilder = RequestConfig.custom();
-    requestBuilder = requestBuilder.setConnectTimeout(getConnectTimeout());
-    requestBuilder = requestBuilder.setSocketTimeout(getOperationTimeout());
-    builder.setRetryHandler(new DelayRetryHandler(retry, pause));
-    builder.setDefaultRequestConfig(requestBuilder.build());
+    RequestConfig requestConfig = RequestConfig.custom()
+      .setConnectTimeout(getConnectTimeout(), TimeUnit.MILLISECONDS)
+      .setResponseTimeout(getOperationTimeout(), TimeUnit.MILLISECONDS)
+      .build();
+    builder.setRetryStrategy(new DelayRetryHandler(retry, pause));
+    builder.setDefaultRequestConfig(requestConfig);
     httpClient = builder.build();
     httpClientCreated = true;
     return httpClient;
@@ -282,8 +284,8 @@ public class ThriftConnection implements Connection {
 
   @Override
   public synchronized void close() throws IOException {
-    if (httpClient != null && httpClientCreated) {
-      HttpClientUtils.closeQuietly(httpClient);
+    if (httpClientCreated && httpClient instanceof CloseableHttpClient) {
+      ((CloseableHttpClient) httpClient).close();
     }
     isClosed = true;
   }

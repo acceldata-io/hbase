@@ -43,17 +43,18 @@ import org.apache.hadoop.hbase.thrift.generated.Hbase;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.hbase.util.SimpleKdcServerUtil;
 import org.apache.hadoop.security.authentication.util.KerberosName;
+import org.apache.hc.client5.http.auth.AuthSchemeFactory;
+import org.apache.hc.client5.http.auth.AuthScope;
+import org.apache.hc.client5.http.auth.KerberosConfig;
+import org.apache.hc.client5.http.auth.KerberosCredentials;
+import org.apache.hc.client5.http.auth.StandardAuthScheme;
+import org.apache.hc.client5.http.impl.auth.BasicCredentialsProvider;
+import org.apache.hc.client5.http.impl.auth.SPNegoSchemeFactory;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.core5.http.config.Lookup;
+import org.apache.hc.core5.http.config.RegistryBuilder;
 import org.apache.http.HttpHeaders;
-import org.apache.http.auth.AuthSchemeProvider;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.KerberosCredentials;
-import org.apache.http.client.config.AuthSchemes;
-import org.apache.http.config.Lookup;
-import org.apache.http.config.RegistryBuilder;
-import org.apache.http.impl.auth.SPNegoSchemeFactory;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 import org.apache.kerby.kerberos.kerb.client.JaasKrbUtil;
 import org.apache.kerby.kerberos.kerb.server.SimpleKdcServer;
 import org.apache.thrift.protocol.TBinaryProtocol;
@@ -227,11 +228,14 @@ public class TestThriftSpnegoHttpServer extends TestThriftHttpServer {
       GSSCredential credential = gssManager.createCredential(gssClient,
         GSSCredential.DEFAULT_LIFETIME, oid, GSSCredential.INITIATE_ONLY);
 
-      Lookup<AuthSchemeProvider> authRegistry = RegistryBuilder.<AuthSchemeProvider> create()
-        .register(AuthSchemes.SPNEGO, new SPNegoSchemeFactory(true, true)).build();
+      Lookup<AuthSchemeFactory> authRegistry = RegistryBuilder.<AuthSchemeFactory>create()
+        .register(StandardAuthScheme.SPNEGO, new SPNegoSchemeFactory(KerberosConfig.custom()
+          .setStripPort(true).setUseCanonicalHostname(true).build(), null))
+        .build();
 
       BasicCredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-      credentialsProvider.setCredentials(AuthScope.ANY, new KerberosCredentials(credential));
+      credentialsProvider.setCredentials(new AuthScope(null, -1),
+        new KerberosCredentials(credential));
 
       return HttpClients.custom().setDefaultAuthSchemeRegistry(authRegistry)
         .setDefaultCredentialsProvider(credentialsProvider).build();
