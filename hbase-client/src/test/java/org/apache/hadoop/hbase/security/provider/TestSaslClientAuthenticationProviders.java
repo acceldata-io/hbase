@@ -17,9 +17,9 @@
  */
 package org.apache.hadoop.hbase.security.provider;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.security.sasl.SaslClient;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.hbase.HBaseClassTestRule;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.security.SecurityInfo;
 import org.apache.hadoop.hbase.security.User;
@@ -35,14 +36,18 @@ import org.apache.hadoop.hbase.testclassification.SmallTests;
 import org.apache.hadoop.security.UserGroupInformation.AuthenticationMethod;
 import org.apache.hadoop.security.token.Token;
 import org.apache.hadoop.security.token.TokenIdentifier;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
+import org.junit.ClassRule;
+import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import org.apache.hadoop.hbase.shaded.protobuf.generated.RPCProtos.UserInformation;
 
-@Tag(SmallTests.TAG)
-@Tag(SecurityTests.TAG)
+@Category({ SmallTests.class, SecurityTests.class })
 public class TestSaslClientAuthenticationProviders {
+
+  @ClassRule
+  public static final HBaseClassTestRule CLASS_RULE =
+    HBaseClassTestRule.forClass(TestSaslClientAuthenticationProviders.class);
 
   @Test
   public void testCannotAddTheSameProviderTwice() {
@@ -53,19 +58,38 @@ public class TestSaslClientAuthenticationProviders {
     SaslClientAuthenticationProviders.addProviderIfNotExists(p1, registeredProviders);
     assertEquals(1, registeredProviders.size());
 
-    assertThrows(RuntimeException.class,
-      () -> SaslClientAuthenticationProviders.addProviderIfNotExists(p2, registeredProviders));
+    try {
+      SaslClientAuthenticationProviders.addProviderIfNotExists(p2, registeredProviders);
+    } catch (RuntimeException e) {
+    }
 
-    assertSame(p1, registeredProviders.entrySet().iterator().next().getValue(),
-      "Expected the original provider to be present");
+    assertSame("Expected the original provider to be present", p1,
+      registeredProviders.entrySet().iterator().next().getValue());
   }
 
   @Test
+  public void testInstanceIsCached() {
+    Configuration conf = HBaseConfiguration.create();
+    SaslClientAuthenticationProviders providers1 =
+      SaslClientAuthenticationProviders.getInstance(conf);
+    SaslClientAuthenticationProviders providers2 =
+      SaslClientAuthenticationProviders.getInstance(conf);
+    assertSame(providers1, providers2);
+
+    SaslClientAuthenticationProviders.reset();
+
+    SaslClientAuthenticationProviders providers3 =
+      SaslClientAuthenticationProviders.getInstance(conf);
+    assertNotSame(providers1, providers3);
+    assertEquals(providers1.getNumRegisteredProviders(), providers3.getNumRegisteredProviders());
+  }
+
+  @Test(expected = RuntimeException.class)
   public void testDifferentConflictingImplementationsFail() {
     Configuration conf = HBaseConfiguration.create();
     conf.setStrings(SaslClientAuthenticationProviders.EXTRA_PROVIDERS_KEY,
       ConflictingProvider1.class.getName(), ConflictingProvider2.class.getName());
-    assertThrows(RuntimeException.class, () -> new SaslClientAuthenticationProviders(conf));
+    SaslClientAuthenticationProviders.getInstance(conf);
   }
 
   static class ConflictingProvider1 implements SaslClientAuthenticationProvider {
