@@ -611,6 +611,9 @@
     <disruptor.version>3.4.4</disruptor.version>
     <httpclient.version>4.5.13</httpclient.version>
     <httpcore.version>4.4.13</httpcore.version>
+    <!-- Matches the HttpClient 5 artifacts libthrift 0.24 pulls in for THttpClient. -->
+    <httpclient5.version>5.2.1</httpclient5.version>
+    <httpcore5.version>5.2</httpcore5.version>
     <metrics-core.version>3.2.6</metrics-core.version>
     <!--
       Note that the version of jackson-[annotations,core,databind] must be kept in sync with the
@@ -642,7 +645,7 @@
     <internal.protobuf.version>4.34.0</internal.protobuf.version>
     <protobuf.plugin.version>0.6.1</protobuf.plugin.version>
     <thrift.path>thrift</thrift.path>
-    <thrift.version>0.14.1</thrift.version>
+    <thrift.version>0.24.0</thrift.version>
     <zookeeper.version>3.8.4.${odp.release.version}</zookeeper.version>
     <jline.version>2.11</jline.version>
     <slf4j.version>1.7.33</slf4j.version>
@@ -1235,6 +1238,16 @@
         <groupId>org.apache.httpcomponents</groupId>
         <artifactId>httpcore</artifactId>
         <version>${httpcore.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.httpcomponents.client5</groupId>
+        <artifactId>httpclient5</artifactId>
+        <version>${httpclient5.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.httpcomponents.core5</groupId>
+        <artifactId>httpcore5</artifactId>
+        <version>${httpcore5.version}</version>
       </dependency>
       <dependency>
         <groupId>commons-codec</groupId>
