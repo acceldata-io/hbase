@@ -20,9 +20,12 @@ package org.apache.hadoop.hbase.thrift;
 import static org.apache.hadoop.hbase.http.ProxyUserAuthenticationFilter.getDoasFromHeader;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.security.PrivilegedExceptionAction;
 import java.util.Base64;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.hadoop.hbase.security.SecurityUtil;
@@ -30,9 +33,12 @@ import org.apache.hadoop.security.UserGroupInformation;
 import org.apache.hadoop.security.authorize.AuthorizationException;
 import org.apache.hadoop.security.authorize.ProxyUsers;
 import org.apache.http.HttpHeaders;
+import org.apache.thrift.TException;
 import org.apache.thrift.TProcessor;
+import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.protocol.TProtocolFactory;
-import org.apache.thrift.server.TServlet;
+import org.apache.thrift.transport.TIOStreamTransport;
+import org.apache.thrift.transport.TTransport;
 import org.apache.yetus.audience.InterfaceAudience;
 import org.ietf.jgss.GSSContext;
 import org.ietf.jgss.GSSCredential;
@@ -48,9 +54,14 @@ import org.slf4j.LoggerFactory;
  * also used for setting the user specified in "doAs" parameter.
  */
 @InterfaceAudience.Private
-public class ThriftHttpServlet extends TServlet {
+public class ThriftHttpServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
   private static final Logger LOG = LoggerFactory.getLogger(ThriftHttpServlet.class.getName());
+  // libthrift 0.24 TServlet extends jakarta.servlet.http.HttpServlet. HBase HTTP
+  // still runs on the shaded Jetty 9 (javax.servlet) stack, so this servlet
+  // implements the same request bridge itself.
+  private final transient TProcessor processor;
+  private final transient TProtocolFactory protocolFactory;
   private final transient UserGroupInformation serviceUGI;
   private final transient UserGroupInformation httpUGI;
   private final transient HBaseServiceHandler handler;
@@ -63,7 +74,8 @@ public class ThriftHttpServlet extends TServlet {
   public ThriftHttpServlet(TProcessor processor, TProtocolFactory protocolFactory,
     UserGroupInformation serviceUGI, UserGroupInformation httpUGI, HBaseServiceHandler handler,
     boolean securityEnabled, boolean doAsEnabled) {
-    super(processor, protocolFactory);
+    this.processor = processor;
+    this.protocolFactory = protocolFactory;
     this.serviceUGI = serviceUGI;
     this.httpUGI = httpUGI;
     this.handler = handler;
@@ -131,7 +143,33 @@ public class ThriftHttpServlet extends TServlet {
       effectiveUser = doAsUserFromQuery;
     }
     handler.setEffectiveUser(effectiveUser);
-    super.doPost(request, response);
+    processThrift(request, response);
+  }
+
+  @Override
+  protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    throws ServletException, IOException {
+    doPost(request, response);
+  }
+
+  /**
+   * Same request bridge as {@code org.apache.thrift.server.TServlet#doPost}, kept on
+   * javax.servlet so the shaded Jetty server can host it.
+   */
+  private void processThrift(HttpServletRequest request, HttpServletResponse response)
+    throws ServletException, IOException {
+    try {
+      response.setContentType("application/x-thrift");
+      InputStream in = request.getInputStream();
+      OutputStream out = response.getOutputStream();
+      TTransport transport = new TIOStreamTransport(in, out);
+      TProtocol inProtocol = protocolFactory.getProtocol(transport);
+      TProtocol outProtocol = protocolFactory.getProtocol(transport);
+      processor.process(inProtocol, outProtocol);
+      out.flush();
+    } catch (TException te) {
+      throw new ServletException(te);
+    }
   }
 
   /**
